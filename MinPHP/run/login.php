@@ -33,10 +33,10 @@
         <div>
             <form action="?act=login&type=do" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="name" placeholder="登录名">
+                    <input type="text" class="form-control" name="name" placeholder="登录名" required="required">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="pwd" placeholder="密码">
+                    <input type="password" class="form-control" name="pwd" placeholder="密码" required="required">
                 </div>
                 <button class="btn btn-success">Submit</button>
             </form>
