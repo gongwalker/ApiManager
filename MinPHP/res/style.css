@@ -1,0 +1,26 @@
+a{
+    text-decoration: none; 
+}
+a:hover{
+    text-decoration: none;
+}
+.list{
+    font-size: 14px;;
+}
+.list li{
+    padding: 8px;
+}
+.info{
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    padding:20px;
+    margin:20px 20px 0 20px;
+    border-radius:5px;
+}
+.keyword{
+    display:none;
+}
+.textshadow{
+    text-shadow:0px 0px 1px #ccc
+}
