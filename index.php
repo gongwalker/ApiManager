@@ -35,4 +35,4 @@
             $file = './MinPHP/run/hello.php';
             break;
     }
-    include './Minphp/run/main.php';
+    include './MinPHP/run/main.php';
