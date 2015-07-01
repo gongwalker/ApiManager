@@ -332,15 +332,23 @@
             <div style="background:#f5f5f5;padding:20px;position:relative">
                 <div class="textshadow" style="position: absolute;right:0;top:4px;right:8px;">
                     最后修改者: <?php echo $v['login_name']?> &nbsp;<?php echo date('Y-m-d H:i:s',$v['lasttime'])?>&nbsp;
+                    <?php if(is_supper()){?>
                     <button class="btn btn-danger btn-xs " onclick="deleteApi(<?php echo $v['id']?>,'<?php echo md5($v['id'])?>')">delete</button>&nbsp;
                     <button class="btn btn-info btn-xs " onclick="editApi('<?php echo U(array('act'=>'api','op'=>'edit','id'=>$v['id'],'tag'=>$_GET['tag']))?>')">edit</button>
+                    <?php } ?>
                 </div>
                 <h4 class="textshadow"><?php echo $v['name']?></h4>
                 <p>
                     <b>编号&nbsp;&nbsp;:&nbsp;&nbsp;<span style="color:red"><?php echo $v['num']?></span></b>
                 </p>
                 <div>
-                    <kbd><?php echo $v['type']?></kbd> - <kbd><?php echo $v['url']?></kbd>
+                    <?php
+                        $color = 'green';
+                        if($v['type']=='POST'){
+                            $color = 'red';
+                        }
+                    ?>
+                    <kbd style="color:<?php echo $color?>"><?php echo $v['type']?></kbd> - <kbd><?php echo $v['url']?></kbd>
                 </div>
             </div>
             <?php if(!empty($v['des'])){ ?>
