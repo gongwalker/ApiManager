@@ -26,6 +26,10 @@
             $menu = ' - ' . $menu['cname'];
             $file ='./MinPHP/run/info.php';
             break;
+        //导出静态文件
+        case 'export':
+            die(include('./MinPHP/run/export.php'));
+            break;
         //ajax请求
         case 'ajax':
            die(include('./MinPHP/run/ajax.php'));
