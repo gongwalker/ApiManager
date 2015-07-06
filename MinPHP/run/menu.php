@@ -1,6 +1,6 @@
 <?php defined('API') or exit('http://gwalker.cn');?>
 <!--导航-->
-<?php if($act != 'api'){
+<?php if($act != 'api' && $act != 'sort'){
     $list = select('select * from cate where isdel=0 order by addtime desc');
 ?>
     <div class="form-group">

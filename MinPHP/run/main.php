@@ -38,8 +38,9 @@
         <span id="topbutton" style="float:right">
             <?php
             if(is_lgoin()){
-                //如果是接口详情页的话,就显示【导出】按钮
-                if(isset($_GET['tag']) && !isset($_GET['op'])){
+                //如果是接口详情页的话,就显示【导出】按钮 与 【排序按钮】
+                if($_GET['act']='api' && isset($_GET['tag']) && !isset($_GET['op'])){
+                    echo '<a href="?act=sort&tag='.$_GET['tag'].'">排序&nbsp;&nbsp;</a>';
                     echo '<a href="?act=export&tag='.$_GET['tag'].'">导出&nbsp;&nbsp;</a>';
                 }
                 echo '<a href="?act=login&type=quit">退出&nbsp;&nbsp;<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>';

@@ -26,6 +26,13 @@
             $menu = ' - ' . $menu['cname'];
             $file ='./MinPHP/run/info.php';
             break;
+        //接口排序页
+        case 'sort':
+            $sql = "select cname from cate where aid='{$_GET['tag']}' and isdel=0";
+            $menu = find($sql);
+            $menu = ' - ' . "<a href='".U(array('act'=>'api','tag'=>$_GET['tag']))."'>{$menu['cname']}</a>";
+            $file ='./MinPHP/run/sort.php';
+            break;
         //导出静态文件
         case 'export':
             die(include('./MinPHP/run/export.php'));

@@ -28,11 +28,11 @@
             $sql = "insert into api (
             `aid`,`num`,`name`,`des`,`url`,
             `type`,`parameter`,`re`,`lasttime`,
-            `lastuid`,`isdel`,`memo`
+            `lastuid`,`isdel`,`memo`,`ord`
             )values (
             '{$aid}','{$num}','{$name}','{$des}','{$url}',
             '{$type}','{$parameter}','{$re}','{$lasttime}',
-            '{$lastuid}','{$isdel}','{$memo}'
+            '{$lastuid}','{$isdel}','{$memo}','99999'
             )";
             $re = insert($sql);
             if($re){
