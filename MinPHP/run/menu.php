@@ -111,16 +111,18 @@
 
     window.onload=function(){
         //添加关闭,打开左侧菜单的功能
-        var html = '<div onclick="navbar()" style="text-align:center;line-height:70px;border-bottom-right-radius:5px;cursor:pointer;border-top-right-radius:5px;width:10px;height:70px;background: rgba(91,192,222, 0.8);position:fixed;left:0;top:260px;color:#fff">&gt;</div>'
+        var html = '<div onclick="navbar(this)" style="text-align:center;line-height:120px;border-bottom-right-radius:5px;cursor:pointer;border-top-right-radius:5px;width:14px;height:120px;background: rgba(91,192,222, 0.8);position:fixed;left:0;top:260px;color:#fff">&lt;</div>'
         $('body').append(html);
     }
     // 全屏和normal
-    function navbar(){
+    function navbar(obj){
         if($('#mainwindow').hasClass('col-md-9')){
+            $(obj).html('&gt;');
             $('#mainwindow').removeClass('col-md-9').addClass('col-md-12');
             $('#navbar').hide();
             $.cookie($COOKIE_KEY, '1');
         }else{
+            $(obj).html('&lt;');
             $('#mainwindow').removeClass('col-md-12').addClass('col-md-9');
             $('#navbar').show();
             $.cookie($COOKIE_KEY, '0');
