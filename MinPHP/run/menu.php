@@ -111,7 +111,16 @@
 
     window.onload=function(){
         //添加关闭,打开左侧菜单的功能
-        var html = '<div onclick="navbar(this)" style="text-align:center;line-height:120px;border-bottom-right-radius:5px;cursor:pointer;border-top-right-radius:5px;width:14px;height:120px;background: rgba(91,192,222, 0.8);position:fixed;left:0;top:260px;color:#fff">&lt;</div>'
+        <?php if($_COOKIE[C('cookie->navbar')]==1){
+            echo 'var status_flg="&gt"';
+        }else{
+            echo 'var status_flg="&lt"';
+        }?>
+
+        var html = '<div onclick="navbar(this)" ' +
+            'style="text-align:center;line-height:120px;border-bottom-right-radius:5px;cursor:pointer;border-top-right-radius:5px;width:14px;height:120px;background: rgba(91,192,222, 0.8);position:fixed;left:0;top:260px;color:#fff">' +
+            status_flg +
+            '</div>'
         $('body').append(html);
     }
     // 全屏和normal
