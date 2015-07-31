@@ -132,7 +132,7 @@
 
     //网站基础路径baseUrl
     function baseUrl(){
-        $currentPath = $_SERVER['PHP_SELF'];
+        $currentPath = $_SERVER['SCRIPT_NAME'];
         $pathInfo = pathinfo($currentPath);
         $hostName = $_SERVER['HTTP_HOST'];
         $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://' ? 'https://' : 'http://';
