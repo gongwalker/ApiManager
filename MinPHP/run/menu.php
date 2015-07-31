@@ -76,7 +76,7 @@
 <?php } ?>
 <!--jquery模糊查询start-->
 <script>
-    var $COOKIE_KEY = 'API_NAVBA_STATUS'; //记录左侧菜单栏的开打与关闭状态的cookie的值
+    var $COOKIE_KEY = "<?php echo C('cookie->navbar')?>"; //记录左侧菜单栏的开打与关闭状态的cookie的值
     function search(type,obj){
         var $find = $.trim($(obj).val());//得到搜索内容
         if(type == 'cate'){//对接口分类进行搜索操作
