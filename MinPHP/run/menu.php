@@ -76,6 +76,7 @@
 <?php } ?>
 <!--jquery模糊查询start-->
 <script>
+    var $COOKIE_KEY = 'API_NAVBA_STATUS'; //记录左侧菜单栏的开打与关闭状态的cookie的值
     function search(type,obj){
         var $find = $.trim($(obj).val());//得到搜索内容
         if(type == 'cate'){//对接口分类进行搜索操作
@@ -105,6 +106,24 @@
                 $(".menu").show();//在没有搜索内容的情况下,左侧导航菜单 全部 显示
                 $(".info_api").show();//在没有搜索内容的情况下,接口详情 全部 显示
             }
+        }
+    }
+
+    window.onload=function(){
+        //添加关闭,打开左侧菜单的功能
+        var html = '<div onclick="navbar()" style="text-align:center;line-height:70px;border-bottom-right-radius:5px;cursor:pointer;border-top-right-radius:5px;width:10px;height:70px;background: rgba(91,192,222, 0.8);position:fixed;left:0;top:260px;color:#fff">&gt;</div>'
+        $('body').append(html);
+    }
+    // 全屏和normal
+    function navbar(){
+        if($('#mainwindow').hasClass('col-md-9')){
+            $('#mainwindow').removeClass('col-md-9').addClass('col-md-12');
+            $('#navbar').hide();
+            $.cookie($COOKIE_KEY, '1');
+        }else{
+            $('#mainwindow').removeClass('col-md-12').addClass('col-md-9');
+            $('#navbar').show();
+            $.cookie($COOKIE_KEY, '0');
         }
     }
 </script>
