@@ -13,6 +13,7 @@
             session('id',$info['id']); //用户id
             session('login_name',$info['login_name']); //登录名
             session('issupper',$info['issuper']); //是否为超级管理员
+            session('is_edit',$info['is_edit']); //是否为编辑
             $time = time();
             $sql = "update user set last_time = '{$time}' where id = {$info['id']}";
             update($sql);

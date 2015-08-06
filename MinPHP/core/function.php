@@ -95,6 +95,11 @@
         return session('issupper') == 1 ? true : false;
     }
 
+    //判断是否为编辑
+    function is_edit(){
+        return session('is_edit') == 1 ? true : false;
+    }
+
     //跳转
     function go($url){
         $gourl = '<script language="javascript" type="text/javascript">window.location.href="'.$url.'"</script>';

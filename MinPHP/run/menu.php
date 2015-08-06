@@ -65,7 +65,7 @@
         </ul>
     </div>
     <form action="?act=api&tag=<?php echo $_GET['tag'];?>&op=add" method="post">
-        <?php if(is_supper()){?>
+        <?php if(is_supper() OR is_edit()){?>
             <!--只有超级管理员才可以添加接口-->
             <div style="float:right;margin-right:20px;">
                 <input type="hidden" value="<?php echo $_GET['tag']?>" name="aid">

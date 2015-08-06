@@ -8,7 +8,7 @@
    //添加接口
    if($op == 'add'){
         if($type == 'do'){
-            if(!is_supper()){die('只有超级管理员才可对接口进行操作');}
+            if(!is_supper() && !is_edit()){die('只有超级管理员才可对接口进行操作');}
             $aid = I($_GET['tag']);    //所属分类
             if(empty($aid)){
                 die('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 所属分类不能为空');
@@ -43,7 +43,7 @@
         }
    //修改接口
    }else if($op == 'edit'){
-       if(!is_supper()){die('只有超级管理员才可对接口进行操作');}
+       if(!is_supper() && !is_edit()){die('只有超级管理员才可对接口进行操作');}
        //执行编辑
        if($type == 'do'){
            $id = $_VAL['id'];   //接口id
@@ -334,6 +334,8 @@
                     最后修改者: <?php echo $v['login_name']?> &nbsp;<?php echo date('Y-m-d H:i:s',$v['lasttime'])?>&nbsp;
                     <?php if(is_supper()){?>
                     <button class="btn btn-danger btn-xs " onclick="deleteApi(<?php echo $v['id']?>,'<?php echo md5($v['id'])?>')">delete</button>&nbsp;
+                    <?php } ?>
+                    <?php if(is_supper() OR is_edit()){?>
                     <button class="btn btn-info btn-xs " onclick="editApi('<?php echo U(array('act'=>'api','op'=>'edit','id'=>$v['id'],'tag'=>$_GET['tag']))?>')">edit</button>
                     <?php } ?>
                 </div>
