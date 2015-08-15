@@ -10,15 +10,35 @@
     $filename = $filename['cname'].$version.'.html';
     //要抓取的接口分类url
     $url = BASEURL.U(array('act'=>'api','tag'=>$tag));
-    //分类详情页的内容
-    $content = file_get_contents($url);
+    // 如果file_get_contents函数不能用就用curl方式获取
+    function file_get_contents_fixed($url)
+    {
 
+        switch (true) {
+            case function_exists('file_get_contents'):
+                $res = file_get_contents($url);
+                break;
+            case function_exists('curl_init'):
+                $ch = curl_init();
+                $timeout = 10; // set to zero for no timeout
+                curl_setopt ($ch, CURLOPT_URL,$url);
+                curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1); 
+                curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+                $res = curl_exec($ch);
+                break;
+            default :
+                exit('导出不可用，请确保可用file_get_contents函数或CURL扩展，');
+        }
+        return $res;
+    }
+    //分类详情页的内容
+    $content = file_get_contents_fixed($url);
     //========js与css静态文件替换start=======================================
     //css文件替换--start
     $pattern = '/<link href="(.+?\.css)" rel="stylesheet">/is';
     function getCssFileContent($matches){
         $filepath = BASEURL.ltrim($matches[1],'./');
-        $content = file_get_contents($filepath);
+        $content = file_get_contents_fixed($filepath);
         return "<style>".$content."</style>";
     }
     $content =  preg_replace_callback($pattern,'getCssFileContent',$content);
@@ -28,7 +48,7 @@
     $pattern = '/<script src="(.+?\.js)"><\/script>/is';
     function getJSFileContent($matches){
         $filepath = BASEURL.ltrim($matches[1],'./');
-        $content = file_get_contents($filepath);
+        $content = file_get_contents_fixed($filepath);
         return "<script>".$content."</script>";
     }
     $content =  preg_replace_callback($pattern,'getJSFileContent',$content);
@@ -36,9 +56,9 @@
     //========js与css静态文件替换end=======================================
 
     //=======页面锚点连接替换start=======================================
-    $pattern = '/<a href=".+?act=api&tag=\d#(\w+).+?">(.+?)<\/a>/is';
+    $pattern = '/(href=[\"\']).*tag=\d#(\w+)/is';
     function changeLink($matches){
-        return "<a href='#{$matches[1]}'>$matches[2]</a>";
+        return "#{$matches[1]}{$matches[2]}'";
     }
     $content =  preg_replace_callback($pattern,'changeLink',$content);
     $tag = C('version->no');
