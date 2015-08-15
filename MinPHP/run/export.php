@@ -58,7 +58,7 @@
     //=======页面锚点连接替换start=======================================
     $pattern = '/(href=[\"\']).*tag=\d#(\w+)/is';
     function changeLink($matches){
-        return "{$matches[1]}#{$matches[2]}'";
+        return "{$matches[1]}#{$matches[2]}";
     }
     $content =  preg_replace_callback($pattern,'changeLink',$content);
     $tag = C('version->no');
