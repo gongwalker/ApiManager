@@ -56,7 +56,7 @@
     //========js与css静态文件替换end=======================================
 
     //=======页面锚点连接替换start=======================================
-    $pattern = '/(href=[\"\']).*tag=\d#(\w+)/';
+    $pattern = '/(href=[\"\']).*tag=\d#(\w+)/is';
     function changeLink($matches){
         return "#{$matches[1]}{$matches[2]}'";
     }
