@@ -399,7 +399,7 @@
         </div>
         <!--接口详细列表end-->
         <!--接口详情返回顶部按钮start-->
-        <div id="gotop" onclick="goTop()" style="z-index:999999;display:none;color:#e6e6e6;cursor:pointer;width:34px;height:34px;border:#ddd 1px solid;line-height:35px;text-align:center;background:rgba(91,192,222, 0.8);position:fixed;right:1px;top:200px;border-radius:50%">
+        <div id="gotop" onclick="goTop()" style="z-index:999999;font-size:18px;display:none;color:#e6e6e6;cursor:pointer;width:42px;height:42px;border:#ddd 1px solid;line-height:42px;text-align:center;background:rgba(91,192,222, 0.8);position:fixed;right:20px;bottom:200px;border-radius:50%;box-shadow: 0px 0px 0px 1px #cccccc;">
             T
         </div>
         <!--接口详情返回顶部按钮end-->
@@ -438,9 +438,9 @@
         document.getElementById('mainwindow').onscroll = function () {
             if(document.getElementById('mainwindow').scrollTop > 100){
                 document.getElementById('gotop').style.display='block';
-                console.log('show');
+            }else{
+                document.getElementById('gotop').style.display='none';
             }
-            console.log(document.getElementById('mainwindow').scrollTop);
         };
     </script>
 <?php } ?>
