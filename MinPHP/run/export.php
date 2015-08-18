@@ -55,14 +55,14 @@
     //js文件替换--end
     //========js与css静态文件替换end=======================================
 
-    //=======页面锚点连接替换start=======================================
-    $pattern = '/(href=[\"\']).*tag=\d#(\w+)/is';
+    //=======页面锚点连接替换start=========================================
+    $pattern = '/href=".+?tag=\d#(\w+)"/i';
     function changeLink($matches){
-        return "{$matches[1]}#{$matches[2]}";
+        return "href=#{$matches[1]}";
     }
     $content =  preg_replace_callback($pattern,'changeLink',$content);
-    $tag = C('version->no');
     //=======页面锚点连接替换end=========================================
+$tag = C('version->no');
 $headhtml=<<<START
 <!--
 =======================================================================

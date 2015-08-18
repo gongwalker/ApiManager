@@ -150,25 +150,25 @@
         exit();
     }
 
-/**
- * @dec 下载文件 指定了content参数，下载该参数的内容
- * @access public
- * @param string $showname 下载显示的文件名
- * @param string $content  下载的内容
- * @param integer $expire  下载内容浏览器缓存时间
- * @return void
- */
-function download($showname='',$content='',$expire=180) {
-    $type	=	"application/octet-stream";
-    //发送Http Header信息 开始下载
-    header("Pragma: public");
-    header("Cache-control: max-age=".$expire);
-    //header('Cache-Control: no-store, no-cache, must-revalidate');
-    header("Expires: " . gmdate("D, d M Y H:i:s",time()+$expire) . "GMT");
-    header("Last-Modified: " . gmdate("D, d M Y H:i:s",time()) . "GMT");
-    header("Content-Disposition: attachment; filename=".$showname);
-    header("Content-type: ".$type);
-    header('Content-Encoding: none');
-    header("Content-Transfer-Encoding: binary" );
-    die($content);
-}
+    /**
+     * @dec 下载文件 指定了content参数，下载该参数的内容
+     * @access public
+     * @param string $showname 下载显示的文件名
+     * @param string $content  下载的内容
+     * @param integer $expire  下载内容浏览器缓存时间
+     * @return void
+     */
+    function download($showname='',$content='',$expire=180) {
+        $type	=	"application/octet-stream";
+        //发送Http Header信息 开始下载
+        header("Pragma: public");
+        header("Cache-control: max-age=".$expire);
+        //header('Cache-Control: no-store, no-cache, must-revalidate');
+        header("Expires: " . gmdate("D, d M Y H:i:s",time()+$expire) . "GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s",time()) . "GMT");
+        header("Content-Disposition: attachment; filename=".$showname);
+        header("Content-type: ".$type);
+        header('Content-Encoding: none');
+        header("Content-Transfer-Encoding: binary" );
+        die($content);
+    }
