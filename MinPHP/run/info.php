@@ -302,19 +302,21 @@
     <script>
         function add(){
             var $html ='<tr>' +
-                '<td class="form-group has-error" ><input type="text" class="form-control has-error" name="p[name][]" placeholder="参数名" required="required"></td>' +
+                '<td class="form-group has-error" >' +
+                    '<input type="text" class="form-control has-error" name="p[name][]" placeholder="参数名" required="required"></td>' +
                 '<td>' +
-                '<select class="form-control" name="p[type][]">' +
-                '<option value="Y">Y</option> <option value="N">N</option>' +
-                '</select >' +
+                    '<select class="form-control" name="p[type][]">' +
+                        '<option value="Y">Y</option> <option value="N">N</option>' +
+                    '</select >' +
                 '</td>' +
                 '<td>' +
-                '<input type="text" class="form-control" name="p[default][]" placeholder="缺省值"></td>' +
-                '<td>' +
-                '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
+                    '<input type="text" class="form-control" name="p[default][]" placeholder="缺省值">' +
                 '</td>' +
                 '<td>' +
-                '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
+                    '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
+                '</td>' +
+                '<td>' +
+                    '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
                 '</td>' +
                 '</tr >';
             $('#parameter').append($html);
