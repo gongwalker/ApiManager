@@ -302,19 +302,21 @@
     <script>
         function add(){
             var $html ='<tr>' +
-                '<td class="form-group has-error" ><input type="text" class="form-control has-error" name="p[name][]" placeholder="参数名" required="required"></td>' +
+                '<td class="form-group has-error" >' +
+                    '<input type="text" class="form-control has-error" name="p[name][]" placeholder="参数名" required="required"></td>' +
                 '<td>' +
-                '<select class="form-control" name="p[type][]">' +
-                '<option value="Y">Y</option> <option value="N">N</option>' +
-                '</select >' +
+                    '<select class="form-control" name="p[type][]">' +
+                        '<option value="Y">Y</option> <option value="N">N</option>' +
+                    '</select >' +
                 '</td>' +
                 '<td>' +
-                '<input type="text" class="form-control" name="p[default][]" placeholder="缺省值"></td>' +
-                '<td>' +
-                '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
+                    '<input type="text" class="form-control" name="p[default][]" placeholder="缺省值">' +
                 '</td>' +
                 '<td>' +
-                '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
+                    '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
+                '</td>' +
+                '<td>' +
+                    '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
                 '</td>' +
                 '</tr >';
             $('#parameter').append($html);
@@ -398,6 +400,11 @@
             <?php } ?>
         </div>
         <!--接口详细列表end-->
+        <!--接口详情返回顶部按钮start-->
+        <div id="gotop" onclick="goTop()" style="z-index:999999;font-size:18px;display:none;color:#e6e6e6;cursor:pointer;width:42px;height:42px;border:#ddd 1px solid;line-height:42px;text-align:center;background:rgba(91,192,222, 0.8);position:fixed;right:20px;bottom:200px;border-radius:50%;box-shadow: 0px 0px 0px 1px #cccccc;">
+            T
+        </div>
+        <!--接口详情返回顶部按钮end-->
         <?php } ?>
     <?php } else{ ?>
         <div style="font-size:16px;">
@@ -421,6 +428,22 @@
         function editApi(gourl){
             window.location.href=gourl;
         }
+
+        //返回顶部
+        function goTop(){
+            $('#mainwindow').animate(
+                { scrollTop: '0px' }, 200
+            );
+        }
+
+        //检测滚动条,显示返回顶部按钮
+        document.getElementById('mainwindow').onscroll = function () {
+            if(document.getElementById('mainwindow').scrollTop > 100){
+                document.getElementById('gotop').style.display='block';
+            }else{
+                document.getElementById('gotop').style.display='none';
+            }
+        };
     </script>
 <?php } ?>
 <!--接口详情列表与接口管理end-->

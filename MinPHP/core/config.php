@@ -12,10 +12,14 @@ return array(
     'session'=>array(
         'prefix' => 'api_',
     ),
+    //cookie配置
+    'cookie' => array(
+        'navbar' => 'API_NAVBAR_STATUS',
+    ),
     //版本信息
     'version'=>array(
-        'no' => 'v1.0',  //版本号
-        'time' => '2015-07-06 18:24',   //版本时间
+        'no' => 'v1.1',  //版本号
+        'time' => '2015-08-19 00:40',   //版本时间
     )
 
 );

@@ -1,4 +1,8 @@
-<?php defined('API') or exit();?>
+<?php
+    defined('API') or exit();
+    if(!is_supper()){die('只有超级管理员才可进行排序操作');}
+?>
+
 <!--接口排序管理start-->
 <?php
     //操作类型{type}

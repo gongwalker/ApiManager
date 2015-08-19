@@ -76,6 +76,7 @@
 <?php } ?>
 <!--jquery模糊查询start-->
 <script>
+    var $COOKIE_KEY = "<?php echo C('cookie->navbar')?>"; //记录左侧菜单栏的开打与关闭状态的cookie的值
     function search(type,obj){
         var $find = $.trim($(obj).val());//得到搜索内容
         if(type == 'cate'){//对接口分类进行搜索操作
@@ -105,6 +106,37 @@
                 $(".menu").show();//在没有搜索内容的情况下,左侧导航菜单 全部 显示
                 $(".info_api").show();//在没有搜索内容的情况下,接口详情 全部 显示
             }
+        }
+    }
+
+    window.onload=function(){
+        //添加关闭,打开左侧菜单的功能
+        <?php if($_COOKIE[C('cookie->navbar')]==1){
+            echo 'var status_flg="&gt";var cursor="e-resize";';
+        }else{
+            echo 'var status_flg="&lt";var cursor="w-resize"';
+        }?>
+
+        var navbarButton = '<div onclick="navbar(this)" ' +
+            'style="text-align:center;line-height:120px;border-bottom-right-radius:5px;cursor:'+cursor+';border-top-right-radius:5px;width:14px;height:120px;background: rgba(91,192,222, 0.8);position:fixed;left:0;top:260px;color:#fff;box-shadow: 0px 0px 0px 1px #cccccc;">' +
+            status_flg +
+            '</div>'
+        $('body').append(navbarButton);
+    }
+    // 全屏和normal
+    function navbar(obj){
+        if($('#mainwindow').hasClass('col-md-9')){
+            $(obj).html('&gt;');
+            $(obj).css("cursor","e-resize");
+            $('#mainwindow').removeClass('col-md-9').addClass('col-md-12');
+            $('#navbar').hide();
+            $.cookie($COOKIE_KEY, '1');
+        }else{
+            $(obj).html('&lt;');
+            $(obj).css("cursor","w-resize");
+            $('#mainwindow').removeClass('col-md-12').addClass('col-md-9');
+            $('#navbar').show();
+            $.cookie($COOKIE_KEY, '0');
         }
     }
 </script>

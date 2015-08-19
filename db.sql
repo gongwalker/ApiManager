@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # http://code.google.com/p/sequel-pro/
 #
-# Host: 127.0.0.1 (MySQL 5.1.73)
+# Host: 127.0.0.1 (MySQL 5.6.19-1~exp1ubuntu2)
 # Database: api
-# Generation Time: 2015-06-29 14:55:17 +0000
+# Generation Time: 2015-07-31 03:51:41 +0000
 # ************************************************************
 
 
@@ -105,7 +105,7 @@ CREATE TABLE `user` (
   `nice_name` char(20) DEFAULT NULL COMMENT '昵称',
   `login_name` char(20) DEFAULT NULL COMMENT '登录名',
   `last_time` int(11) DEFAULT '0' COMMENT '最近登录时间',
-  `login_pwd` int(11) DEFAULT NULL COMMENT '登录密码',
+  `login_pwd` varchar(32) DEFAULT NULL COMMENT '登录密码',
   `isdel` int(11) DEFAULT '0' COMMENT '{0正常,1:删除}',
   `issuper` int(11) DEFAULT '0' COMMENT '{0:普通管理员,1超级管理员}',
   PRIMARY KEY (`id`)
@@ -116,8 +116,8 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `nice_name`, `login_name`, `last_time`, `login_pwd`, `isdel`, `issuper`)
 VALUES
-	(1,'admin','admin',1435587815,654321,0,1),
-	(2,'root','root',1435575693,123456,0,1);
+	(1,'admin','admin',1438314444,'654321',0,1),
+	(2,'root','root',1435575693,'123456',0,1);
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
