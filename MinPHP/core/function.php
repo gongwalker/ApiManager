@@ -139,17 +139,6 @@
         return $protocol.$hostName.$pathInfo['dirname']."/";
     }
 
-    //下载html
-    function downfile($fileName){
-        $fileName = '路径+实际文件名';
-        //文件的类型
-        header('Content-type: application/pdf');
-        //下载显示的名字
-        header('Content-Disposition: attachment; filename="保存时的文件名.pdf"');
-        readfile("$fileName");
-        exit();
-    }
-
     /**
      * @dec 下载文件 指定了content参数，下载该参数的内容
      * @access public
