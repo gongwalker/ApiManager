@@ -189,7 +189,7 @@
             return $val;
         }else{
             if(is_numeric($val)){
-                return intval($val);
+                return $val;
             }else if(is_string($val)){
                 return htmlspecialchars(trim($val),ENT_QUOTES);
             }else{
