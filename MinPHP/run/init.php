@@ -12,3 +12,5 @@
     date_default_timezone_set('Asia/Shanghai');
     //加载公用函数
     include('./MinPHP/core/function.php');
+    //数据库连接初始化
+    M();

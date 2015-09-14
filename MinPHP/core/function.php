@@ -1,13 +1,14 @@
 <?php defined('API') or exit('http://gwalker.cn');?>
 <?php
     /**
-     * @dec 得到配置文件的配置项
-     * @param null $name
-     * @return mixed
+     * @dec 得到配置文件的配置项 & 设置某配置项
+     * @param null $name 配置键名
+     * @param null $value 设置时提供此值
+     * @return bool|mixed
      * 使用方法,例子
      * C('db') 或 C('version->no')
      */
-    function C($name = null){
+    function C($name = null,$value = null){
         static $_config = array();
         if(empty($_config)){
             $_config = include_once './MinPHP/core/config.php';
@@ -15,6 +16,17 @@
         if(is_null($name)){
             return $_config;
         }else{
+            //设置某项的值
+            if(!is_null($value)){
+                if(strpos($name,'->')){
+                    $arr = explode('->',$name);
+                    $_config[$arr[0]][$arr[1]] = $value;
+                }else{
+                    $_config[$name] = $value;
+                }
+                return true;
+            }
+            //获取某项的值
             if(strpos($name,'->')){
                 $arr = explode('->',$name);
                 $tmp = $_config;
@@ -32,42 +44,98 @@
         static $_model = null;
         if(is_null($_model)){
             $db=C('db');
-            try {
-                $_model = new PDO("mysql:host={$db['host']};dbname={$db['dbname']}","{$db['user']}","{$db['passwd']}");
-            } catch ( PDOException $e ) {
-                die ( "Connect Error Infomation:" . $e->getMessage () );
+            //连接类型
+            $type = strtolower($db['linktype']);
+            $type = in_array($type,array('pdo','mysqli')) ? $type : 'mysqli';
+            C('db->linktype',$type);
+            //设置数据库字符集
+            $dbCharset = 'SET NAMES utf8';
+            switch ($type) {
+                case 'pdo': //pdo类型连接
+                    try {
+                        $_model = new PDO("mysql:host={$db['host']};dbname={$db['dbname']}","{$db['user']}","{$db['passwd']}");
+                    } catch ( PDOException $e ) {
+                        die ( "PDO unable to connect:" . $e->getMessage () );
+                    }
+                    //设置数据库编码
+                    $_model->exec($dbCharset);
+                    break;
+
+                case 'mysqli': //mysqli类型连接
+                    $_model = new mysqli("{$db['host']}","{$db['user']}","{$db['passwd']}","{$db['dbname']}");
+                    if($_model->connect_errno){
+                        die( "Mysqli unable to connect:" . $_model->connect_errno . " - " .$_model->connect_error);
+                    }
+                    //设置数据库编码
+                    $_model->query($dbCharset);
+                    break;
             }
-            //设置数据库编码
-            $_model->exec('SET NAMES utf8');
         }
         return $_model;
     }
 
     //返回一条记录集
     function find($sql){
-        $rs = M()->query($sql);
-        $row = $rs->fetch(PDO::FETCH_ASSOC);
-        return $row;
+        switch(C('db->linktype')){
+            case 'pdo':
+                $rs = M()->query($sql);
+                $row = $rs->fetch(PDO::FETCH_ASSOC);
+                return $row;
+                break;
+            case 'mysqli':
+                $rs = M()->query($sql);
+                $row = $rs->fetch_assoc();
+                return $row;
+                break;
+        }
     }
 
     //返回多条记录
     function select($sql){
-        $rs = M()->query($sql);
-        $rows = array();
-        while($row = $rs->fetch(PDO::FETCH_ASSOC)){
-            $rows[] = $row;
+        switch(C('db->linktype')){
+            case 'pdo':
+                $rs = M()->query($sql);
+                $rows = array();
+                while($row = $rs->fetch(PDO::FETCH_ASSOC)){
+                    $rows[] = $row;
+                }
+                return $rows;
+                break;
+            case 'mysqli':
+                $rs = M()->query($sql);
+                $rows = array();
+                while($row = $rs->fetch_assoc()){
+                    $rows[] = $row;
+                }
+                return $rows;
+                break;
         }
-        return $rows;
+
     }
 
     //insert
     function insert($sql){
-        return M()->exec($sql);
+        switch(C('db->linktype')){
+            case 'pdo':
+                return M()->exec($sql);
+                break;
+            case 'mysqli':
+                return M()->query($sql);
+                break;
+        }
     }
 
     //update
     function update($sql){
-        return M()->exec($sql);
+        switch(C('db->linktype')){
+            case 'pdo':
+                return M()->exec($sql);
+                break;
+            case 'mysqli':
+                return M()->query($sql);
+                break;
+        }
+
     }
 
     //设置和获取session值
