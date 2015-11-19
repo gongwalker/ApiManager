@@ -11,6 +11,7 @@
         $info = find($sql);
         if(!empty($info)){
             session('id',$info['id']); //用户id
+            session('nice_name',$info['nice_name']); //昵称
             session('login_name',$info['login_name']); //登录名
             session('issupper',$info['issuper']); //是否为超级管理员
             $time = time();
