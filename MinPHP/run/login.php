@@ -6,7 +6,7 @@
     if($type  == 'do'){
         $_VAL = I($_POST);
         $login_name = $_VAL['name'];
-        $login_pwd = $_VAL['pwd'];
+        $login_pwd = md5($_VAL['pwd']);
         $sql = "select * from user where login_name = '{$login_name}' and login_pwd = '{$login_pwd}' and isdel = '0'";
         $info = find($sql);
         if(!empty($info)){
