@@ -133,6 +133,8 @@
                         <select class="form-control" name="type">
                             <option value="GET">GET</option>
                             <option value="POST">POST</option>
+                            <option value="DELETE">DELETE</option>
+                            <option value="PUT">PUT</option>
                         </select>
                     </div>
                     <div class="form-group">
