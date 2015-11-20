@@ -6,11 +6,12 @@
     if($type  == 'do'){
         $_VAL = I($_POST);
         $login_name = $_VAL['name'];
-        $login_pwd = $_VAL['pwd'];
+        $login_pwd = md5($_VAL['pwd']);
         $sql = "select * from user where login_name = '{$login_name}' and login_pwd = '{$login_pwd}' and isdel = '0'";
         $info = find($sql);
         if(!empty($info)){
             session('id',$info['id']); //用户id
+            session('nice_name',$info['nice_name']); //昵称
             session('login_name',$info['login_name']); //登录名
             session('issupper',$info['issuper']); //是否为超级管理员
             $time = time();

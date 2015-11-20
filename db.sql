@@ -116,8 +116,8 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `nice_name`, `login_name`, `last_time`, `login_pwd`, `isdel`, `issuper`)
 VALUES
-	(1,'admin','admin',1438314444,'654321',0,1),
-	(2,'root','root',1435575693,'123456',0,1);
+	(1,'admin','admin',1438314444,'c33367701511b4f6020ec61ded352059',0,1),
+	(2,'root','root',1435575693,'e10adc3949ba59abbe56e057f20f883e',0,1);
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;

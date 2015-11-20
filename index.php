@@ -39,8 +39,13 @@
             break;
         //ajax请求
         case 'ajax':
-           die(include('./MinPHP/run/ajax.php'));
-        break;
+            die(include('./MinPHP/run/ajax.php'));
+            break;
+        //修改密码
+        case 'modpwd':
+            $menu = ' - 修改密码';
+            $file = './MinPHP/run/modpwd.php';
+            break;
         default :
             $menu = ' - 欢迎';
             $file = './MinPHP/run/hello.php';
