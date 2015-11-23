@@ -242,9 +242,13 @@
                             <?php
                                 $selected[0] = ($info['type'] == 'GET') ? 'selected' : '';
                                 $selected[1] = ($info['type'] == 'POST') ? 'selected' : '';
+                                $selected[2] = ($info['type'] == 'PUT') ? 'selected' : '';
+                                $selected[3] = ($info['type'] == 'DELETE') ? 'selected' : '';                                
                             ?>
                             <option value="GET"  <?php echo $selected[0]?>>GET</option>
                             <option value="POST" <?php echo $selected[1]?>>POST</option>
+                            <option value="PUT" <?php echo $selected[2]?>>PUT</option>                                                        
+                            <option value="DELETE" <?php echo $selected[3]?>>DELETE</option>
                         </select>
                     </div>
                     <div class="form-group">
