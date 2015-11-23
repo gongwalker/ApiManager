@@ -20,18 +20,19 @@
             $type = $_VAL['type'];  //请求方式
             $url = $_VAL['url'];
 
-            $parameter = serialize($_VAL['p']);
+            $request_parameter = serialize($_VAL['req']);
+            $response_parameter = serialize($_VAL['rsp']);
             $re = $_VAL['re'];  //返回值
             $lasttime = time(); //最后操作时间
             $lastuid = session('id'); //操作者id
             $isdel = 0; //是否删除的标识
             $sql = "insert into api (
             `aid`,`num`,`name`,`des`,`url`,
-            `type`,`parameter`,`re`,`lasttime`,
+            `type`,`request_parameter`,`response_parameter`,`re`,`lasttime`,
             `lastuid`,`isdel`,`memo`,`ord`
             )values (
             '{$aid}','{$num}','{$name}','{$des}','{$url}',
-            '{$type}','{$parameter}','{$re}','{$lasttime}',
+            '{$type}','{$request_parameter}','{$response_parameter}','{$re}','{$lasttime}',
             '{$lastuid}','{$isdel}','{$memo}','99999'
             )";
             $re = insert($sql);
@@ -54,14 +55,15 @@
            $type = $_VAL['type'];  //请求方式
            $url = $_VAL['url']; //请求地址
 
-           $parameter = serialize($_VAL['p']);
+           $request_parameter = serialize($_VAL['req']);
+           $response_parameter = serialize($_VAL['rsp']);
            $re = $_VAL['re'];  //返回值
            $lasttime = time(); //最后操作时间
            $lastuid = session('id'); //操作者id
 
            $sql ="update api set num='{$num}',name='{$name}',
            des='{$des}',url='{$url}',type='{$type}',
-           parameter='{$parameter}',re='{$re}',lasttime='{$lasttime}',lastuid='{$lastuid}',memo='{$memo}'
+           request_parameter='{$request_parameter}',response_parameter='{$response_parameter}',re='{$re}',lasttime='{$lasttime}',lastuid='{$lastuid}',memo='{$memo}'
            where id = '{$id}'";
            $re = update($sql);
            if($re){
@@ -78,20 +80,23 @@
        $info = find($sql);
        //得到数据的详情信息end
        if(!empty($info)){
-           $info['parameter'] = unserialize($info['parameter']);
-           $count = count($info['parameter']['name']);
+           $info['request_parameter'] = unserialize($info['request_parameter']);
+           $info['response_parameter'] = unserialize($info['response_parameter']);
+           $req_count = count($info['request_parameter']['name']);
+           $rsq_count = count($info['response_parameter']['name']);
            $p = array();
-           for($i = 0;$i < $count; $i++){
-               $p[$i]['name']=$info['parameter']['name'][$i];
-               $p[$i]['type']=$info['parameter']['type'][$i];
-               $p[$i]['default']=$info['parameter']['default'][$i];
-               $p[$i]['des']=$info['parameter']['des'][$i];
+           for($i = 0;$i < $req_count; $i++){
+               $p[$i]['name']=$info['request_parameter']['name'][$i];
+               $p[$i]['type']=$info['request_parameter']['type'][$i];
+               $p[$i]['default']=$info['request_parameter']['default'][$i];
+               $p[$i]['des']=$info['request_parameter']['des'][$i];
            }
-           $info['parameter'] = $info['parameter'];
+           $info['request_parameter'] = $info['request_parameter'];
+           $info['response_parameter'] = $info['response_parameter'];
        }
    //此分类下的接口列表
    }else{
-        $sql = "select api.id,aid,num,url,name,des,parameter,memo,re,lasttime,lastuid,type,login_name
+        $sql = "select api.id,aid,num,url,name,des,request_parameter,response_parameter,memo,re,lasttime,lastuid,type,login_name
         from api
         left join user
         on api.lastuid=user.id
@@ -141,27 +146,59 @@
                             <thead>
                             <tr>
                                 <th class="col-md-3">参数名</th>
-                                <th class="col-md-2">必传</th>
+                                <th class="col-md-2">必须</th>
                                 <th class="col-md-2">缺省值</th>
                                 <th class="col-md-4">描述</th>
                                 <th class="col-md-1">
-                                    <button type="button" class="btn btn-success" onclick="add()">新增</button>
+                                    <button type="button" class="btn btn-success" onclick="add('req')">新增</button>
                                 </th>
                             </tr>
                             </thead>
-                            <tbody id="parameter">
+                            <tbody id="req">
                             <tr>
                                 <td class="form-group has-error">
-                                    <input type="text" class="form-control" name="p[name][]" placeholder="参数名" required="required">
+                                    <input type="text" class="form-control" name="req[name][]" placeholder="参数名" required="required">
                                 </td>
                                 <td>
-                                    <select class="form-control" name="p[type][]">
+                                    <select class="form-control" name="req[type][]">
                                         <option value="Y">Y</option>
                                         <option value="N">N</option>
                                     </select>
                                 </td>
-                                <td><input type="text" class="form-control" name="p[default][]" placeholder="缺省值"></td>
-                                <td><textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea></td>
+                                <td><input type="text" class="form-control" name="req[default][]" placeholder="缺省值"></td>
+                                <td><textarea name="req[des][]" rows="1" class="form-control" placeholder="描述"></textarea></td>
+                                <td><button type="button" class="btn btn-danger" onclick="del(this)">删除</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <h5>响应参数</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="col-md-3">参数名</th>
+                                <th class="col-md-2">必须</th>
+                                <th class="col-md-2">缺省值</th>
+                                <th class="col-md-4">描述</th>
+                                <th class="col-md-1">
+                                    <button type="button" class="btn btn-success" onclick="add('rsp')">新增</button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="rsp">
+                            <tr>
+                                <td class="form-group has-error">
+                                    <input type="text" class="form-control" name="rsp[name][]" placeholder="参数名" required="required">
+                                </td>
+                                <td>
+                                    <select class="form-control" name="rsp[type][]">
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" name="rsp[default][]" placeholder="缺省值"></td>
+                                <td><textarea name="rsp[des][]" rows="1" class="form-control" placeholder="描述"></textarea></td>
                                 <td><button type="button" class="btn btn-danger" onclick="del(this)">删除</button></td>
                             </tr>
                             </tbody>
@@ -181,24 +218,24 @@
         </div>
     </div>
     <script>
-        function add(){
+        function add(id_){
             var $html ='<tr>' +
-                '<td class="form-group has-error" ><input type="text" class="form-control has-error" name="p[name][]" placeholder="参数名" required="required"></td>' +
+                '<td class="form-group has-error" ><input type="text" class="form-control has-error" name="'+id_+'[name][]" placeholder="参数名" required="required"></td>' +
                 '<td>' +
-                '<select class="form-control" name="p[type][]">' +
+                '<select class="form-control" name="'+id_+'[type][]">' +
                 '<option value="Y">Y</option> <option value="N">N</option>' +
                 '</select >' +
                 '</td>' +
                 '<td>' +
-                '<input type="text" class="form-control" name="p[default][]" placeholder="缺省值"></td>' +
+                '<input type="text" class="form-control" name="'+id_+'[default][]" placeholder="缺省值"></td>' +
                 '<td>' +
-                '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
+                '<textarea name="'+id_+'[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
                 '</td>' +
                 '<td>' +
                 '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
                 '</td>' +
                 '</tr >';
-            $('#parameter').append($html);
+            $('#' + id_).append($html);
         }
         function del(obj){
             $(obj).parents('tr').remove();
@@ -251,34 +288,75 @@
                             <thead>
                             <tr>
                                 <th class="col-md-3">参数名</th>
-                                <th class="col-md-2">必传</th>
+                                <th class="col-md-2">必须</th>
                                 <th class="col-md-2">缺省值</th>
                                 <th class="col-md-4">描述</th>
                                 <th class="col-md-1">
-                                    <button type="button" class="btn btn-success" onclick="add()">新增</button>
+                                    <button type="button" class="btn btn-success" onclick="add('req')">新增</button>
                                 </th>
                             </tr>
                             </thead>
-                            <tbody id="parameter">
+                            <tbody id="req">
 
-                            <?php $count = count($info['parameter']['name']);?>
+                            <?php $count = count($info['request_parameter']['name']);?>
                             <?php for($i=0;$i<$count;$i++){ ?>
                             <tr>
                                 <td class="form-group has-error">
-                                    <input type="text" class="form-control" name="p[name][]" placeholder="参数名" value="<?php echo $info['parameter']['name'][$i]?>" required="required">
+                                    <input type="text" class="form-control" name="req[name][]" placeholder="参数名" value="<?php echo $info['request_parameter']['name'][$i]?>" required="required">
                                 </td>
                                 <td>
                                     <?php
-                                        $selected[0] = ($info['parameter']['type'][$i] == 'Y') ? 'selected' : '';
-                                        $selected[1] = ($info['parameter']['type'][$i] == 'N') ? 'selected' : '';
+                                        $selected[0] = ($info['request_parameter']['type'][$i] == 'Y') ? 'selected' : '';
+                                        $selected[1] = ($info['request_parameter']['type'][$i] == 'N') ? 'selected' : '';
                                     ?>
-                                    <select class="form-control" name="p[type][]">
+                                    <select class="form-control" name="req[type][]">
                                         <option value="Y" <?php echo $selected[0]?>>Y</option>
                                         <option value="N" <?php echo $selected[1]?>>N</option>
                                     </select>
                                 </td>
-                                <td><input type="text" class="form-control" name="p[default][]" placeholder="缺省值" value="<?php echo $info['parameter']['default'][$i]?>"></td>
-                                <td><textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"><?php echo $info['parameter']['des'][$i]?></textarea></td>
+                                <td><input type="text" class="form-control" name="req[default][]" placeholder="缺省值" value="<?php echo $info['request_parameter']['default'][$i]?>"></td>
+                                <td><textarea name="req[des][]" rows="1" class="form-control" placeholder="描述"><?php echo $info['request_parameter']['des'][$i]?></textarea></td>
+                                <td><button type="button" class="btn btn-danger" onclick="del(this)">删除</button></td>
+                            </tr>
+                            <?php } ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <h5>响应参数</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="col-md-3">参数名</th>
+                                <th class="col-md-2">必须</th>
+                                <th class="col-md-2">缺省值</th>
+                                <th class="col-md-4">描述</th>
+                                <th class="col-md-1">
+                                    <button type="button" class="btn btn-success" onclick="add('rsp')">新增</button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="rsp">
+
+                            <?php $count = count($info['response_parameter']['name']);?>
+                            <?php for($i=0;$i<$count;$i++){ ?>
+                            <tr>
+                                <td class="form-group has-error">
+                                    <input type="text" class="form-control" name="rsp[name][]" placeholder="参数名" value="<?php echo $info['response_parameter']['name'][$i]?>" required="required">
+                                </td>
+                                <td>
+                                    <?php
+                                        $selected[0] = ($info['response_parameter']['type'][$i] == 'Y') ? 'selected' : '';
+                                        $selected[1] = ($info['response_parameter']['type'][$i] == 'N') ? 'selected' : '';
+                                    ?>
+                                    <select class="form-control" name="rsp[type][]">
+                                        <option value="Y" <?php echo $selected[0]?>>Y</option>
+                                        <option value="N" <?php echo $selected[1]?>>N</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" name="rsp[default][]" placeholder="缺省值" value="<?php echo $info['response_parameter']['default'][$i]?>"></td>
+                                <td><textarea name="rsp[des][]" rows="1" class="form-control" placeholder="描述"><?php echo $info['response_parameter']['des'][$i]?></textarea></td>
                                 <td><button type="button" class="btn btn-danger" onclick="del(this)">删除</button></td>
                             </tr>
                             <?php } ?>
@@ -288,7 +366,7 @@
                     </div>
                     <div class="form-group">
                         <h5>返回结果</h5>
-                        <textarea name="re" rows="3" class="form-control" placeholder="返回结果"><?php echo $info['re']?></textarea>
+                        <textarea name="re" rows="3" class="form-control" placeholder="返回示例"><?php echo $info['re']?></textarea>
                     </div>
                     <div class="form-group">
                         <h5>备注</h5>
@@ -300,26 +378,26 @@
         </div>
     </div>
     <script>
-        function add(){
+        function add(id_){
             var $html ='<tr>' +
                 '<td class="form-group has-error" >' +
-                    '<input type="text" class="form-control has-error" name="p[name][]" placeholder="参数名" required="required"></td>' +
+                    '<input type="text" class="form-control has-error" name="'+id_+'[name][]" placeholder="参数名" required="required"></td>' +
                 '<td>' +
-                    '<select class="form-control" name="p[type][]">' +
+                    '<select class="form-control" name="'+id_+'[type][]">' +
                         '<option value="Y">Y</option> <option value="N">N</option>' +
                     '</select >' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" class="form-control" name="p[default][]" placeholder="缺省值">' +
+                    '<input type="text" class="form-control" name="'+id_+'[default][]" placeholder="缺省值">' +
                 '</td>' +
                 '<td>' +
-                    '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
+                    '<textarea name="'+id_+'[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
                 '</td>' +
                 '<td>' +
                     '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
                 '</td>' +
                 '</tr >';
-            $('#parameter').append($html);
+            $('#' + id_).append($html);
         }
         function del(obj){
             $(obj).parents('tr').remove();
@@ -364,22 +442,50 @@
                     <thead>
                     <tr>
                         <th class="col-md-3">参数名</th>
-                        <th class="col-md-2">必传</th>
+                        <th class="col-md-2">必须</th>
                         <th class="col-md-2">缺省值</th>
                         <th class="col-md-5">描述</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                        $parameter = unserialize($v['parameter']);
-                        $pnum = count($parameter['name']);
+                        $request_parameter = unserialize($v['request_parameter']);
+                        $pnum = count($request_parameter['name']);
                     ?>
                     <?php for( $i=0; $i<$pnum; $i++ ) {?>
                     <tr>
-                        <td><?php echo $parameter['name'][$i]?></td>
-                        <td><?php if($parameter['type'][$i]=='Y'){echo '<span style="color:red">Y<span>';}else{echo '<span style="color:green">N<span>';}?></td>
-                        <td><?php echo $parameter['default'][$i]?></td>
-                        <td><?php echo $parameter['des'][$i]?></td>
+                        <td><?php echo $request_parameter['name'][$i]?></td>
+                        <td><?php if($request_parameter['type'][$i]=='Y'){echo '<span style="color:red">Y<span>';}else{echo '<span style="color:green">N<span>';}?></td>
+                        <td><?php echo $request_parameter['default'][$i]?></td>
+                        <td><?php echo $request_parameter['des'][$i]?></td>
+                    </tr>
+                    <?php } ?>
+
+                    </tbody>
+                </table>
+            </div>
+            <div style="background:#ffffff;padding:20px;">
+                <h5 class="textshadow" >响应参数</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="col-md-3">参数名</th>
+                        <th class="col-md-2">必须</th>
+                        <th class="col-md-2">缺省值</th>
+                        <th class="col-md-5">描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        $response_parameter = unserialize($v['response_parameter']);
+                        $pnum = count($response_parameter['name']);
+                    ?>
+                    <?php for( $i=0; $i<$pnum; $i++ ) {?>
+                    <tr>
+                        <td><?php echo $response_parameter['name'][$i]?></td>
+                        <td><?php if($response_parameter['type'][$i]=='Y'){echo '<span style="color:red">Y<span>';}else{echo '<span style="color:green">N<span>';}?></td>
+                        <td><?php echo $response_parameter['default'][$i]?></td>
+                        <td><?php echo $response_parameter['des'][$i]?></td>
                     </tr>
                     <?php } ?>
 
@@ -388,7 +494,7 @@
             </div>
             <?php if(!empty($v['re'])){ ?>
             <div style="background:#ffffff;padding:20px;">
-                <h5 class="textshadow" >返回值</h5>
+                <h5 class="textshadow" >返回示例</h5>
                 <pre><?php echo $v['re']?></pre>
             </div>
             <?php } ?>
