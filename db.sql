@@ -32,7 +32,8 @@ CREATE TABLE `api` (
   `url` varchar(240) DEFAULT NULL COMMENT '请求地址',
   `name` varchar(100) DEFAULT NULL COMMENT '接口名',
   `des` varchar(300) DEFAULT NULL COMMENT '接口描述',
-  `parameter` text COMMENT '请求参数{所有的主求参数,以json格式在此存放}',
+  `request_parameter` text COMMENT '请求参数{所有的主求参数,以json格式在此存放}',
+  `response_parameter` text COMMENT '响应参数{所有的主求参数,以json格式在此存放}',
   `memo` text COMMENT '备注',
   `re` text COMMENT '返回值',
   `lasttime` int(11) unsigned DEFAULT NULL COMMENT '提后操作时间',
@@ -41,7 +42,7 @@ CREATE TABLE `api` (
   `type` char(11) DEFAULT NULL COMMENT '请求方式',
   `ord` int(11) DEFAULT '0' COMMENT '排序(值越大,越靠前)',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='接口明细表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='接口明细表'
 
 LOCK TABLES `api` WRITE;
 /*!40000 ALTER TABLE `api` DISABLE KEYS */;
