@@ -153,7 +153,7 @@
     }
 
     //判断是否登录
-    function is_lgoin(){
+    function is_login(){
         $login_name = session('login_name');
         return empty($login_name) ? false : true;
     }

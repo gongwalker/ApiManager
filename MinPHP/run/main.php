@@ -37,7 +37,7 @@
                 <span> <a class="home" href="<?php echo U() ?>">Home</a><?php echo $menu;?></span>
         <span id="topbutton" style="float:right">
             <?php
-            if(is_lgoin()){
+            if(is_login()){
                 echo '欢迎您：' . session('nice_name') . '&nbsp;&nbsp;';
                 //如果是接口详情页的话,就显示【导出】按钮 与 【排序】按钮
                 if($_GET['act']=='api' && isset($_GET['tag']) && !isset($_GET['op'])){
