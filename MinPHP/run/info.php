@@ -90,6 +90,44 @@
            }
            $info['parameter'] = $info['parameter'];
        }
+    //测试接口
+   }else if($op == 'testApi'){
+       //执行编辑
+       if($type == 'do'){
+           $id = $_VAL['id'];   //接口id
+           $num = htmlspecialchars($_POST['num'],ENT_QUOTES);   //接口编号(为了导致编号的前导0去过滤掉。不用用I方法过滤)
+           $name = $_VAL['name'];  //接口名称
+           $memo = $_VAL['memo']; //备注
+           $des = $_VAL['des'];    //描述
+           $type = $_VAL['type'];  //请求方式
+           $url = $_VAL['url']; //请求地址
+       }
+       //编辑界面
+       if(empty($id)){$id = I($_GET['id']);}
+       $aid = I($_GET['tag']);
+       //得到数据的详情信息start
+       $sql = "select * from api where id='{$id}' and aid='{$aid}'";
+       $info = find($sql);
+       //得到数据的详情信息end
+       if(!empty($info)){
+           $info['parameter'] = unserialize($info['parameter']);
+           $count = count($info['parameter']['name']);
+           $p = array();
+           for($i = 0;$i < $count; $i++){
+               $p[$i]['name']=$info['parameter']['name'][$i];
+         $p[$i]['paramType']=$info['parameter']['paramType'][$i];
+               $p[$i]['type']=$info['parameter']['type'][$i];
+               $p[$i]['default']=$info['parameter']['default'][$i];
+               $p[$i]['des']=$info['parameter']['des'][$i];
+           }
+           $info['parameter'] = $info['parameter'];
+       }
+       //测试接口
+   }else if($op == 'ah'){      
+      $url = $_VAL['url'];
+      $datas = $_VAL['dataparam'];
+      $posttype = $_VAL['posttype'];      
+      echo "============================================="+ $datas;
    //此分类下的接口列表
    }else{
         $sql = "select api.id,aid,num,url,name,des,parameter,memo,re,lasttime,lastuid,type,login_name
@@ -421,6 +459,122 @@ function DeleteCookie(name) {
         }
     </script>
     <!--修改接口 end-->
+<?php }else if($op == 'testApi'){ ?>
+    <!-- 测试接口 start-->
+    <div style="border:1px solid #ddd">
+        <div style="background:#f5f5f5;padding:20px;position:relative">
+            <h4>测试接口<span style="font-size:12px;padding-left:20px;color:#a94442">注:"此色"边框为必填项</span></h4>
+            <div style="margin-left:20px;">            
+                    <h5>基本信息</h5>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon">接口编号</div>
+                            <input type="hidden" name="id" value="<?php echo $info['id']?>"/>
+                            <input type="text" class="form-control" name="num" placeholder="接口编号" value="<?php echo $info['num']?>" required="required" readonly="true">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon">接口名称</div>
+                            <input type="text" class="form-control" name="name" placeholder="接口名称" value="<?php echo $info['name']?>" required="required" readonly="true">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon">请求地址</div>
+                            <input id="url" type="text" class="form-control" name="url" placeholder="请求地址" value="<?php echo $info['url']?>" required="required" >
+                        </div>
+                    </div>                    
+                    <div class="form-group" required="required">
+                        <select id="posttype" class="form-control" name="type" disabled="disabled">
+                            <?php
+                                $selected[0] = ($info['type'] == 'GET') ? 'selected' : '';
+                                $selected[1] = ($info['type'] == 'POST') ? 'selected' : '';
+                            ?>
+                            <option value="GET"  <?php echo $selected[0]?>>GET</option>
+                            <option value="POST" <?php echo $selected[1]?>>POST</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <h5>请求参数</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="col-md-3">参数名</th>
+                                <th class="col-md-2">参数类型</th>
+                <th class="col-md-2">必传</th>
+                                <th class="col-md-2">值</th>
+                            </tr>
+                            </thead>
+                            <tbody id="parameter">
+
+                            <?php $count = count($info['parameter']['name']);?> 
+                            <input type="hidden" id="paramsfields" value="<?php echo $info['parameter']['name'];?>"></input>                         
+                            <?php for($i=0;$i<$count;$i++){ ?>
+                            <tr>
+                                <td class="form-group has-error">
+                                    <input  type="text" class="form-control" name="p[name][]" placeholder="参数名" value="<?php echo $info['parameter']['name'][$i]?>" required="required" readonly="true">
+                                </td>
+                <td class="form-group has-error">
+                  <input type="text" class="form-control" name="p[paramType][]" placeholder="参数类型" value="<?php echo $info['parameter']['paramType'][$i]?>"  required="required" readonly="true">
+                  </td>
+                                <td>
+                                    <?php
+                                        $selected[0] = ($info['parameter']['type'][$i] == 'Y') ? 'selected' : '';
+                                        $selected[1] = ($info['parameter']['type'][$i] == 'N') ? 'selected' : '';
+                                    ?>
+                                    <select class="form-control" name="p[type][]" disabled="disabled">
+                                        <option value="Y" <?php echo $selected[0]?>>Y</option>
+                                        <option value="N" <?php echo $selected[1]?>>N</option>
+                                    </select>
+                                </td>
+                                <td><input id="<?php echo $info['parameter']['name'][$i]?>" type="text" class="form-control" name="p[default][]" placeholder="值" value="<?php echo $info['parameter']['default'][$i]?>"></td>
+                                
+                            </tr>
+                            <?php } ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn btn-success" onclick="doTest()" >Submit Test</button>
+                    <div class="form-group">
+                        <h5>结果示例</h5>
+                        <textarea name="re" rows="3" class="form-control" placeholder="结果示例" readonly="true"><?php echo $info['re']?></textarea>
+                        <h5>执行结果</h5>
+                        <textarea id="exeresult" name="exeresult" rows="3" class="form-control" placeholder="执行结果" ></textarea>
+                    </div>                                                 
+            </div>
+        </div>
+    </div>   
+    <script type="text/javascript">
+      function doTest(){
+        var url =$('#url').val();
+        if(url == null ){
+          alert("无效url");
+          return;
+        }
+        var posttype = $('#posttype').val();
+        var fieldstr = "<?php echo implode(',',$info['parameter']['name']);?>";
+        var dataparam = {};
+        var fields = fieldstr.split(",");
+        var pa="";
+        for( var i=0; i< fields.length; i++){
+          var fieldid = fields[i];
+          dataparam[fieldid] = $("#"+ fieldid).val();
+          pa = pa+fieldid+"=" +$("#"+ fieldid).val() +"&";
+        }  
+        var d ={};              
+        d.url = url;
+        d.posttype = posttype;  
+        d.dataparam = dataparam;                  
+        var apiurl = 'MinPHP/run/ah.php';
+         $.post(  apiurl,  d, function(data){                        
+                $('#exeresult').text(data);                
+              } 
+          );
+      }
+    </script>
+    <!-- 测试接口 end-->
 <?php }else{ ?>
     <!--接口详细列表start-->
     <?php if(count($list)){ ?>
@@ -434,7 +588,9 @@ function DeleteCookie(name) {
                     <button class="btn btn-info btn-xs " onclick="editApi('<?php echo U(array('act'=>'api','op'=>'edit','id'=>$v['id'],'tag'=>$_GET['tag']))?>')">edit</button>
                     <?php } ?>
                 </div>
-                <h4 class="textshadow"><?php echo $v['name']?></h4>
+                <h4 class="textshadow"><?php echo $v['name']?>
+                  <button class="btn btn-danger btn-xs " onclick="testApi('<?php echo U(array('act'=>'api','op'=>'testApi','id'=>$v['id'],'tag'=>$_GET['tag']))?>')">Test</button>
+                </h4>
                 <p>
                     <b>编号&nbsp;&nbsp;:&nbsp;&nbsp;<span style="color:red"><?php echo $v['num']?></span></b>
                 </p>
@@ -497,6 +653,20 @@ function DeleteCookie(name) {
             <?php } ?>
         </div>
         <!--接口详细列表end-->
+        <!-- 测试模态框 -->
+        <div id="testModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">API </h4>
+              </div>
+                <div class="modal-body">
+                  Comming soon......
+                </div>
+            </div>
+          </div>
+        </div>
         <!--接口详情返回顶部按钮start-->
         <div id="gotop" onclick="goTop()" style="z-index:999999;font-size:18px;display:none;color:#e6e6e6;cursor:pointer;width:42px;height:42px;border:#ddd 1px solid;line-height:42px;text-align:center;background:rgba(91,192,222, 0.8);position:fixed;right:20px;bottom:200px;border-radius:50%;box-shadow: 0px 0px 0px 1px #cccccc;">
             T
@@ -531,6 +701,11 @@ function DeleteCookie(name) {
             $('#mainwindow').animate(
                 { scrollTop: '0px' }, 200
             );
+        }
+        // 测试接口
+        function testApi(gourl) {
+           //$('#testModal').modal('show');
+           window.location.href=gourl;
         }
 
         //检测滚动条,显示返回顶部按钮
