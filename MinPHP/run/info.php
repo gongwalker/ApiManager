@@ -91,6 +91,36 @@
            $info['parameter'] = $info['parameter'];
        }
    //此分类下的接口列表
+   }elseif('copy' == $op){
+      if(!is_supper()){die('只有超级管理员才可对接口进行操作');}
+      if(empty($id)){$id = I($_GET['id']);}
+      $name = I($_GET['name']);
+      //得到数据的详情信息start
+      $sql = "select * from api where id='{$id}'";
+      $info = find($sql);
+      $sql = "select max(num) as maxNum from api where aid='{$info['aid']}'";
+      $maxNum = find($sql);
+      $maxNum = $maxNum['maxNum']+1;
+      if(!empty($info)){
+        $time = time();
+        $lastuid = session('id'); //操作者id
+        $sql = "insert into api (
+            `aid`,`num`,`name`,`des`,`url`,
+            `type`,`parameter`,`re`,`lasttime`,
+            `lastuid`,`isdel`,`memo`,`ord`
+            )values (
+            '{$info['aid']}','{$maxNum}','{$name}','{$info['des']}','{$info['url']}',
+            '{$info['type']}','{$info['parameter']}','{$info['re']}','{$time}',
+            '{$lastuid}','0','{$info['memo']}','99999'
+            )";
+        $re = insert($sql);
+        if ( $re ) {
+          go(U(array('act'=>'api','tag'=>$info['aid'])));
+        } else {
+          echo '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 添加失败</div>';
+        }
+      }
+      exit();
    }else{
         $sql = "select api.id,aid,num,url,name,des,parameter,memo,re,lasttime,lastuid,type,login_name
         from api
@@ -422,6 +452,8 @@ function DeleteCookie(name) {
     </script>
     <!--修改接口 end-->
 <?php }else{ ?>
+    <script type="text/javascript" src="./MinPHP/res/jquery.min.js"></script>
+    <script type="text/javascript" src="./MinPHP/res/layer.js"></script>
     <!--接口详细列表start-->
     <?php if(count($list)){ ?>
         <?php foreach($list as $v){ ?>
@@ -432,6 +464,7 @@ function DeleteCookie(name) {
                     <?php if(is_supper()){?>
                     <button class="btn btn-danger btn-xs " onclick="deleteApi(<?php echo $v['id']?>,'<?php echo md5($v['id'])?>')">delete</button>&nbsp;
                     <button class="btn btn-info btn-xs " onclick="editApi('<?php echo U(array('act'=>'api','op'=>'edit','id'=>$v['id'],'tag'=>$_GET['tag']))?>')">edit</button>
+                    <button class="btn btn-primary btn-xs " onclick="copyApi(<?php echo $v['id']?>)">copy</button>
                     <?php } ?>
                 </div>
                 <h4 class="textshadow"><?php echo $v['name']?></h4>
@@ -524,6 +557,15 @@ function DeleteCookie(name) {
         //编辑某个接口
         function editApi(gourl){
             window.location.href=gourl;
+        }
+        //复制某个api
+        function copyApi( apiId ) {
+          var askName = layer.prompt({
+            title: '输入新的api名称',
+            formType: 0 //prompt风格，支持0-2
+          }, function(pass){
+            location.href = "index.php?act=api&op=copy&id="+apiId+"&name="+pass;
+          });
         }
 
         //返回顶部
