@@ -31,7 +31,7 @@ CREATE TABLE `api` (
   `num` varchar(100) DEFAULT NULL COMMENT '接口编号',
   `url` varchar(240) DEFAULT NULL COMMENT '请求地址',
   `name` varchar(100) DEFAULT NULL COMMENT '接口名',
-  `des` varchar(300) DEFAULT NULL COMMENT '接口描述',
+  `des` text COMMENT '接口描述',
   `parameter` text COMMENT '请求参数{所有的主求参数,以json格式在此存放}',
   `memo` text COMMENT '备注',
   `re` text COMMENT '返回值',
