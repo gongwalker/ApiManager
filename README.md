@@ -39,7 +39,7 @@ SELECT MD5('your passwd.');
 作者信息
 ==========
 * :email:	gongcoder@gmail.com
-* qq:	309581329
+* blog:	[https://www.gwalker.cn](https://www.gwalker.cn)
 
 最后
 ====
