@@ -516,6 +516,51 @@ function DeleteCookie(name) {
                     </tbody>
                 </table>
             </div>
+            
+            <!-- 测试请求start  -->
+            <div style="background:#ffffff;padding:20px;">
+                <h5 class="textshadow" style="font-size:20px;color:#F0AD4E;" id="httpRequestText<?php echo $v['num']?>">测试地址　　<button type='button' id="httpRequestButton<?php echo $v['num']?>" content="展开测试"   onclick="httpRequest(<?php echo $v['num']?>)" class='btn btn-warning'>展开请求</button></h5>
+                <div id="httpRequestDiv<?php echo $v['num']?>" style="display:none">
+                <form action="<?php echo $v['url']?>" target="_blank" method="<?php echo $v["type"]; ?>">  
+                <table class="table">
+                    <tbody>
+                    <?php for( $i=0; $i<$pnum; $i++ ) {?>
+                    	<?php 
+                    		if($parameter['type'][$i]=='Y'){
+                    				$required="required='required'";
+                    		}else{
+                    				$required="";
+                    		}
+                    		echo '<input type="text" class="form-control" name="'.$parameter['name'][$i].'" placeholder="'.$parameter['name'][$i].'" '.$required.'>';
+                    	?>
+	                    </br>
+	                  <?php } ?>
+                    </tbody>
+                </table>
+                <input type="submit" class="btn btn-info" value="测试"/>
+                </form>
+                </div>
+            </div>
+            
+            <script>
+            	function httpRequest(num){
+            		var content=$("#httpRequestButton"+num).attr("content");
+            		if( content=="收起测试" ){
+            			$("#httpRequestButton"+num).attr("content","展开测试");
+            			$("#httpRequestButton"+num).text("展开测试");
+            			$("#httpRequestButton"+num).attr("class","btn btn-warning");
+            			$("#httpRequestText"+num).css("color","#F0AD4E");
+            		}else{
+            			$("#httpRequestButton"+num).attr("content","收起测试");
+            			$("#httpRequestButton"+num).text("收起测试");
+            			$("#httpRequestButton"+num).attr("class","btn btn-info");
+            			$("#httpRequestText"+num).css("color","#31B0D5");
+            		}
+            		$("#httpRequestDiv"+num).toggle("slow");
+            	}
+            </script>
+            <!--测试请求end-->
+            
             <?php if(!empty($v['re'])){ ?>
             <div style="background:#ffffff;padding:20px;">
                 <h5 class="textshadow" >返回值</h5>
