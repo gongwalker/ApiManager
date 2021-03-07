@@ -26,22 +26,18 @@
 * 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
 * 运行 ./run.sh start|stop
 
-#### windows环境
+#### Windows环境
 * 进入 https://github.com/gongwalker/ApiManager/releases
 * 下载 ApiManager-v2.1.0-windows-amd64.zip 并解压
 * 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
 
-#### mac环境
+#### Mac环境
 * 进入 https://github.com/gongwalker/ApiManager/releases
 * 下载 ApiManager-v2.1.0-mac.zip 并解压
 * 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
-
-
-#### Mac环境
-* 进入 https://github.com/gongwalker/ApiManager/releases/s
-* 下载 ./.zip 并解压
-* 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
 * 运行 ./run.sh start|stop
+
+
 
 ### 使用说明
 
@@ -59,9 +55,14 @@
 4. 可以作为一个基础角手架进行使用，快速开发。初学者可以作为熟悉gin框架学习所用
 
 
+
+### 系统长什么样
+
+
 ### 作者信息
 * :email:	gongcoder@gmail.com
 * blog:	[https://www.gwalker.cn](https://www.gwalker.cn)
+
 
 ### 最后
 非常欢迎大家贡献代码，让这个项目成长的更好。
