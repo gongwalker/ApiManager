@@ -19,15 +19,27 @@
 * 浏览器打开 http://your_host:8000
 
 ### 方法二 直接使用
+
 #### Linux环境
 * 进入 https://github.com/gongwalker/ApiManager/releases
-* 下载 apimanager-linux-2.1.0.zip 并解压
+* 下载 ApiManager-v2.1.0-linux-amd64.zip 并解压
 * 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
 * 运行 ./run.sh start|stop
 
-#### Mac环境
+#### windows环境
 * 进入 https://github.com/gongwalker/ApiManager/releases
-* 下载 apimanager-linux-2.1.0.zip 并解压
+* 下载 ApiManager-v2.1.0-windows-amd64.zip 并解压
+* 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
+
+#### mac环境
+* 进入 https://github.com/gongwalker/ApiManager/releases
+* 下载 ApiManager-v2.1.0-mac.zip 并解压
+* 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
+
+
+#### Mac环境
+* 进入 https://github.com/gongwalker/ApiManager/releases/s
+* 下载 ./.zip 并解压
 * 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
 * 运行 ./run.sh start|stop
 
@@ -41,7 +53,6 @@
 2. 默认的超级管理员 账号root 密码:123456
 
 ### 用到了哪些技术及项目价值
-========
 1. 前端页面采用 layui-v2.5.6,Bootstrap v3.3.4，后端采用gin框架编写Restful Api 接口,前后端分离。
 2. 后端用到了表单校验，权限校验中间件定义,mysql数据存档，项目session可以支持cookie与redis两个储存方案
 3. 适用于中小团队api文档管理使用

@@ -3,4 +3,5 @@
 .DS_Store?
 ApiManager
 run.log
+releases
 vendor
