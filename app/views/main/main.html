@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="height:100%">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>API接口管理工具</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link href="/static/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+    <link href="/static/layui/css/layui.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="/static/html5shiv.min.js"></script>
+    <script src="/static/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function unix2human(unixTimeStamp) {
+            var now = new Date(unixTimeStamp * 1000);
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;
+            month = month < 10 ? "0" + month : month;
+            var day = now.getDate();
+            day = day < 10 ? "0" + day : day;
+            var hour = now.getHours();
+            hour = hour < 10 ? "0" + hour : hour;
+            var minute = now.getMinutes();
+            minute = minute < 10 ? "0" + minute : minute;
+            var second = now.getSeconds();
+            second = second < 10 ? "0" + second : second;
+            return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+        }
+    </script>
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/layui/layui.js"></script>
+    <script src="/static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+    <script src="/static/common.js"></script>
+</head>
+<body id="body">
+<div class="container-fluid" id="container-fluid">
+    <div class="row" id="row">
+        <!--左侧导航start-->
+        <div id="navbar" class="col-md-3 navbar">
+            <div class="title" style="margin-top:10px;">
+                <a class="home" href="/">
+                    <span class="glyphicon glyphicon-random ." aria-hidden="true" style=""></span>&nbsp;
+                    <span class="t">API Manager <span class="v">&nbsp;v2.1</span></span>
+                </a>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="searchcate" onkeyup="search(this)"
+                       placeholder="search here">
+            </div>
+            <div id="menuList">
+            </div>
+        </div>
+        <!--左侧导航end-->
+
+        <div id="mainWindow" class="col-md-9">
+            <!--顶部导航start-->
+            <div class="textshadow">
+                <a class="home" href="/">Home</a> <span id="controlNav"></span>
+                <span id="controlBar"></span>
+            </div>
+            <!--顶部导航end-->
+
+            <!--主窗口start-->
+            <div id="modelWindow">
+            </div>
+            <!--主窗口end-->
+        </div>
+
+    </div>
+</div>
+
+<div id="navbarhanlder" onclick="navbar()">
+    &lt;
+</div>
+</body>
+</html>
+
+<script id="welcome" type="text/html">
+    <div style="font-size:18px;">
+        <div class="info" style="font-size:14px;">
+            <span style="font-size:30px;" class="glyphicon glyphicon-grain" aria-hidden="true"></span> <span
+                    style="font-size:16px;position: relative;top:-4px;">Welcome to ApiManager v2.1
+
+</span><br>
+            <pre class="info" style="margin:10px 34px 10px 34px">What is ApiManager?<br><br>API manager is an online API document management system, which is committed to quickly solve the internal interface document writing, maintenance, query and archiving. Reduce the cost of teamwork and communication, improve work efficiency.<br><br>enjoy coding...
+            </pre>
+        </div>
+
+        <div style="color:#ccc;font-size:12px;position:absolute;bottom:0;right:20px;height:20px;text-align:right;">
+            github : <a style="color:#ccc" target="_blank" href="https://github.com/gongwalker/ApiManager.git">https://github.com/gongwalker/ApiManager.git</a>
+        </div>
+    </div>
+</script>
+
+<script id="addcate" type="text/html">
+    <div style="border:1px solid #ddd">
+        <div class="cre_api">
+            <div class="title">CREATE A NEW COLLECTION</div>
+            <div>
+                <div id="createCollection">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="cname" placeholder="collection">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="cdesc" placeholder="description">
+                    </div>
+                    <button class="btn btn-success" name="op" value="add" onclick="doCreateCollection()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="editcate" type="text/html">
+    <div style="border:1px solid #ddd">
+        <div style="background:#f5f5f5;padding:20px;position:relative">
+            <div class="title">EDIT COLLECTION</div>
+            <div>
+                <div class="editCollection">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" name="aid" value="{{=d.aid}}"
+                               placeholder="collection">
+                        <input type="text" class="form-control" value="{{=d.cname}}" name="cname"
+                               placeholder="collection">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" value="{{=d.cdesc}}" name="cdesc"
+                               placeholder="description">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" value="{{=d.csort}}" name="csort"
+                               placeholder="sort value">
+                    </div>
+                    <button class="btn btn-success" name="op" value="edit" onclick="doEditCollection(this)">Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="catelist" type="text/html">
+    <div class="list">
+        <div id="menutype" data-type="cate"></div>
+        <ul class="list-unstyled">
+            <div>
+                {{# layui.each(d,function(index, item){ }}
+                <li class="menu" id="cate_{{=item.aid}}">
+                    <a href="/m/cate?aid={{=item.aid}}">{{=item.cname}}</a>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;{{=item.cdesc}}<input type='hidden' name='aid' value='{{=item.aid}}'>
+                    <br>
+                    <!--只有超级管理员才可以对分类进行操作-->
+                    <div style="float:right;margin-right:16px;">
+                        {{# if(boolRole(window.role == 1)){ }}
+                        <button class="btn btn-danger btn-xs" name="op" data-aid="{{=item.aid}}"
+                                data-cname="{{=item.cname}}" onclick="doDeleteCollection(this)">delete
+                        </button>
+                        {{# } }}
+                        {{# if(boolRole(window.role == 1)){ }}
+                        <button class="btn btn-info btn-xs" name="op" data-aid="{{=item.aid}}"
+                                onclick="editCollection({{=item.aid}})">edit
+                        </button>
+                        {{# } }}
+                    </div>
+                    <br>
+                    <hr>
+                </li>
+                <span class="keyword" nid="{{=item.aid}}">{{=item.cname}}<|-|>{{=item.cdesc}}</span>
+                {{# }); }}
+            </div>
+        </ul>
+    </div>
+
+    {{# if(boolRole(window.role == 1)){ }}
+    <div style="float:right;margin:20px;">
+        <a class="btn btn-success" onclick="CreateCollection()" href="javascript:void(0);">New collection</a>
+    </div>
+    {{# } }}
+</script>
+
+<script id="apiinfo" type="text/html">
+    <div id="apibox">
+        {{#  layui.each(d, function(index, item){ }}
+        <div class="info_api" id="info_api_{{=item.id}}">
+            <div class="cre_api">
+                <h4 class="tit">{{=item.name}}</h4>
+                <div class="meta" style="position: absolute;top:4px;right:8px;">
+                    Last modify: {{=item.op_user}} &nbsp;{{unix2human(item.lasttime)}}&nbsp;
+                    {{# if(boolRole(window.role == 1 || window.role == 2)){ }}
+                    <button data-tit='{{=item.name}}' data-id='{{=item.id}}' class="btn btn-danger btn-xs"
+                            onclick="doDeleteApi(this)">
+                        delete
+                    </button>
+                    {{# } }}
+                    &nbsp;
+                    {{# if(boolRole(window.role == 1 || window.role == 2)){ }}
+                    <a class="btn btn-info btn-xs" href="/m/editapi?aid={{=item.aid}}&id={{=item.id}}">edit</a>
+                    {{# } }}
+
+                    {{# if(boolRole(window.role == 1 || window.role == 2)){ }}
+                    <button data-tit='{{=item.name}}' data-id='{{=item.id}}' style="margin-left:6px;" class="btn btn-primary btn-xs"
+                            onclick="duplicateApi(this)">
+                        duplicate
+                    </button>
+                    {{# } }}
+                </div>
+
+                <p style="margin-top:12px">
+                    <b>No.&nbsp;&nbsp;<span style="color:#FF5722">{{=item.num}}</span></b>
+                </p>
+                <div style="margin-top:12px;">
+                    <kbd style="color:#5FB878">{{=item.type}}</kbd> - <kbd>{{=item.url}}</kbd>
+                </div>
+            </div>
+
+            {{# if(item.des){ }}
+            <div class="part">
+                <pre style="background:#d9edf7">{{=item.des}}</pre>
+            </div>
+            {{# } }}
+
+            <div class="pars">
+                <h5 class="sec">Request Parameters</h5>
+                {{# if(showParamsTable(item.parameter)) { }}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="col-md-3">Name</th>
+                        <th class="col-md-2">Type</th>
+                        <th class="col-md-2">Require</th>
+                        <th class="col-md-2">Default value</th>
+                        <th class="col-md-5">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{getApiParamsView(item.parameter)}}
+                    </tbody>
+                </table>
+                {{# } }}
+
+                {{# if(item.st){ }}
+                <div style="background:#ffffff;padding:2px 0px 2px 0px">
+                    <pre style="background:#ffffff">{{=item.st}}</pre>
+                </div>
+                {{# } }}
+
+            </div>
+
+            {{# if(item.re){ }}
+            <div class="pars">
+                <h5 class="sec">Response</h5>
+                <pre>{{=item.re}}</pre>
+            </div>
+            {{# } }}
+            {{# if(item.memo){ }}
+            <div class="pars">
+                <h5 class="sec">Note</h5>
+                <pre style="background:honeydew">{{=item.memo}}</pre>
+            </div>
+            {{# } }}
+        </div>
+        {{# }); }}
+
+        {{# if(d.length == 0){ }}
+    <div style="color:#FFB800;text-align: center;font-size:18px;margin:40px 0 0 0">
+        This collection is empty. {{# if(boolRole(window.role == 1 || window.role == 2)){ }}<span style="color:#4cae4c;cursor:pointer" onclick="CreateApi()">New Api</span> to
+        this collection create an Api.{{# } }}
+    </div>
+        {{# } }}
+    </div>
+
+    <div id="gotop" onclick="goTop()">
+        <i class="layui-icon layui-icon-top"></i>
+    </div>
+</script>
+
+<script id="apimenu" type="text/html">
+    <div class="list">
+        <div id="menutype" data-type="api"></div>
+        <ul class="list-unstyled" style="padding:10px">
+            {{#  layui.each(d, function(index, item){ }}
+            <li class="menu" id="api_{{=item.id}}">
+                <a class="api-term" data-id="{{=item.id}}" data-num="{{=item.num}}" data-cname="{{=item.name}}" href="/m/cate?aid={{=item.aid}}#info_api_{{=item.id}}" id="menu_{{=item.id}}">
+                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    {{=item.name}}
+                </a>
+            </li>
+            <span class="keyword"
+                  nid="{{=item.id}}">{{=item.name}}<|-|>{{=item.num}}<|-|>{{=item.des}}<|-|>{{=item.des}}<|-|>{{=item.parameter}}<|-|>{{=item.parameter}}<|-|>{{=item.url}}<|-|>{{=item.type}}<|-|>{{=item.re}}<|-|>{{=item.memo}}</span>
+            {{# }); }}
+        </ul>
+    </div>
+
+    {{# if(boolRole(window.role == 1 || window.role == 2)){ }}
+    <div style="float:right;margin:20px;">
+        <a class="btn btn-success" onclick="CreateApi()" href="javascript:void(0);">New Api</a>
+    </div>
+    {{# } }}
+</script>
+
+<script id="addapi" type="text/html">
+    <div style="border:1px solid #ddd">
+        <div id="op_api_box">
+            <form id="createApiFrom" action="/api/create" method="post" onsubmit="return doCreateApi()">
+                <input name="aid" type="hidden" value="{{=d.aid}}">
+                <div class="op_title">CREATE A NEW API</div>
+                <div id="createApi">
+                    <h5 class="tit">Basic information</h5>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon pad">Api No</div>
+                            <input type="text" class="form-control" name="num" placeholder="Api number"
+                                   required="required">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon pad">Name</div>
+                            <input type="text" class="form-control" name="name" placeholder="Api name"
+                                   requiredgongwen="required">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon pad">Api url</div>
+                            <input type="text" class="form-control" name="url" placeholder="Api request url"
+                                   requiredgongwen="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="des" class="form-control" placeholder="Api description"></textarea>
+                    </div>
+                    <div class="form-group" requiredgongwen="required">
+                        <select class="form-control" name="type">
+                            {{getSelectedType('')}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <h5 class="tit">Request Parameters</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="col-md-3">Name</th>
+                                <th class="col-md-2">Type</th>
+                                <th class="col-md-2">Require</th>
+                                <th class="col-md-2">Default value</th>
+                                <th class="col-md-4">Description</th>
+                                <th class="col-md-1">
+                                    <button type="button" class="btn op-btn btn-success" onclick="addParam()">New
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="parameter">
+                            <tr>
+                                <td class="form-group has-error">
+                                    <input type="text" class="form-control" name="p[name][]" placeholder="name"
+                                           requiredgongwen="required">
+                                </td>
+                                <td class="form-group has-error"><input type="text" class="form-control"
+                                                                        name="p[paramType][]" placeholder="type"
+                                                                        requiredgongwen="required"></td>
+                                <td>
+                                    <select class="form-control" name="p[type][]">
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" name="p[default][]"
+                                           placeholder="default value"></td>
+                                <td><textarea name="p[des][]" rows="1" class="form-control"
+                                              placeholder="description"></textarea></td>
+                                <td>
+                                    <i onclick="sort_api(this,'up')" class="layui-icon layui-icon-up op-button"></i>
+                                    <i onclick="sort_api(this,'down')" class="layui-icon layui-icon-down op-button"></i>
+                                    <i onclick="delParam(this)" class="layui-icon layui-icon-delete op-button op-delete"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <textarea name="st" rows="3" class="form-control" placeholder="Request Note"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <h5 class="tit">Response</h5>
+                        <textarea name="re" rows="3" class="form-control" placeholder="Response"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <h5 class="tit">Note</h5>
+                        <textarea name="memo" rows="3" class="form-control" placeholder="Note"></textarea>
+                    </div>
+                    <button class="btn btn-success">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</script>
+
+
+<script id="editapi" type="text/html">
+    <div style="border:1px solid #ddd">
+        <div id="op_api_box">
+            <form id="editApiFrom" action="/api/edit" method="post" onsubmit="return doEditApi()">
+                <input name="aid" type="hidden" value="{{=d.aid}}">
+                <input name="id" type="hidden" value="{{=d.id}}">
+                <div class="op_title">API EDIT</div>
+                <div id="createApi">
+                    <h5 class="tit">Basic information</h5>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon pad">Api No</div>
+                            <input type="text" value="{{=d.num}}" class="form-control" name="num"
+                                   placeholder="Api number"
+                                   required="required">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon pad">Name</div>
+                            <input type="text" value="{{=d.name}}" class="form-control" name="name"
+                                   placeholder="Api name"
+                                   requiredgongwen="required">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <div class="input-group">
+                            <div class="input-group-addon pad">Api url</div>
+                            <input type="text" value="{{=d.url}}" class="form-control" name="url"
+                                   placeholder="Api request url"
+                                   requiredgongwen="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="des" class="form-control" placeholder="Api description">{{=d.des}}</textarea>
+                    </div>
+                    <div class="form-group" requiredgongwen="required">
+                        <select class="form-control" name="type">
+                            {{getSelectedType(d.type)}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <h5 class="tit">Request Parameters</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="col-md-3">Name</th>
+                                <th class="col-md-2">Type</th>
+                                <th class="col-md-2">Require</th>
+                                <th class="col-md-2">Default value</th>
+                                <th class="col-md-4">Description</th>
+                                <th class="col-md-1">
+                                    <button type="button" class="btn op-btn btn-success" onclick="addParam()">New
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="parameter">
+                            {{getApiParamsViewForEdit(d.parameter)}}
+                            </tbody>
+                        </table>
+                        <textarea name="st" rows="3" class="form-control" placeholder="Request Note">{{=d.st}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <h5 class="tit">Response</h5>
+                        <textarea name="re" rows="3" class="form-control" placeholder="Response">{{=d.re}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <h5 class="tit">Note</h5>
+                        <textarea name="memo" rows="3" class="form-control" placeholder="Note">{{=d.memo}}</textarea>
+                    </div>
+                    <button class="btn btn-success">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</script>
+
+<script id="header-control-bar" type="text/html">
+    <span id="topbutton">
+        {{# if(boolRole(window.role == 1) && d.export){ }}
+        <a id="exportButton"  onclick="doExport()" href="javascript:void(0)">export</a>&nbsp;&nbsp;
+        {{# } }}
+        {{# if(boolRole(window.role == 1) && d.sort){ }}
+        <a id="sortButton"  onclick="doSort()" href="javascript:void(0)">sort</a>&nbsp;&nbsp;
+        {{# } }}
+        {{# if(boolRole(window.role == 1)){ }}
+        <a onclick="doSet()" href="javascript:void(0)">manage</a>&nbsp;&nbsp;
+        {{# } }}
+        <span class="t" onclick="resetPwd(this)" data-id="{{=d.id}}" data-login_name="{{=d.name}}" onclick="">{{=d.name}}</span>
+        <span id="exitButton" onclick="doExit()">
+            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+        </span>
+    </span>
+</script>
+
+<script id="header-control-nav" type="text/html">
+    {{# if(d.nav){ }}
+    {{=d.nav}}
+    {{# }}}
+</script>
+
+<script id="role_tpl" type="text/html">
+    <div id="user_role_{{d.id}}">
+        {{=getRole(d)}}
+    </div>
+
+</script>
+
+<script id="status_tpl" type="text/html">
+    <div id="user_status_{{d.id}}">
+        {{=getStatus(d)}}
+    </div>
+</script>
+
+<script id="opration_tpl" type="text/html">
+    <div id="user_button_{{d.id}}">
+        {{getButton(d)}}
+    </div>
+</script>
+
+
+
+
+
+
+

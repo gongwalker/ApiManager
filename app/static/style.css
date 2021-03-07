@@ -1,0 +1,355 @@
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.list {
+    font-size: 14px;;
+}
+
+.list li {
+    padding: 8px;
+}
+
+.info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    padding: 20px;
+    margin: 20px 20px 0 20px;
+    border-radius: 5px;
+}
+
+.keyword {
+    display: none;
+}
+
+.textshadow {
+    text-shadow: 0px 0px 1px #ccc
+}
+
+#body {
+    height: 100%
+}
+
+#menutype {
+    display: none;
+}
+
+#container-fluid {
+    background: white;
+    height: 100%;
+}
+
+#row {
+    height: 100%;
+}
+
+#container-fluid .navbar {
+    position: relative;
+    background: #f5f5f5;
+    padding: 10px;
+    height: 100%;
+    border-right: #ddd 1px solid;
+    overflow-y: auto;
+}
+
+#container-fluid .title {
+    height: 50px;
+    font-size: 30px;
+}
+
+#container-fluid .title a {
+    color: #000000;
+    text-shadow: 1px 0px 1px #666;
+    text-decoration: none
+}
+
+#container-fluid .title a .l {
+    width: 40px;
+}
+
+#container-fluid .title .t {
+    position: relative;
+    top: -3px;
+}
+
+#container-fluid .title .v {
+    font-size: 12px;
+    position: relative;
+    top: -13px;
+}
+
+#mainWindow {
+    height: 100%;
+    background: white;
+    margin: 0;
+    overflow-y: auto;
+    padding: 0;
+}
+
+#mainWindow .textshadow {
+    font-size: 16px;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 16px 0 16px;;
+    border-bottom: #ddd 1px solid
+}
+
+#topbutton {
+    float: right
+}
+
+#topbutton .t {
+    font-weight: 500;
+    padding: 0 8px;
+    font-size: 18px;
+    color: #1E9FFF;
+    cursor: pointer;
+}
+
+#modelWindow {
+    padding: 16px;
+}
+
+#mainWindow .title {
+    padding: 4px 0 14px 0;
+    font-weight: 500;
+    font-size: 18px !important;
+}
+
+#apibox .meta {
+    width: auto;
+    border-bottom: none;
+    font-size: 12px;
+    color: #333333;
+}
+
+#apibox .tit {
+    width: auto;
+    border-bottom: none;
+    font-size: 16px;
+    color: #333333;
+    font-weight: bold;
+}
+
+#apibox .sec {
+    font-weight: 500;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+}
+
+#apibox pre {
+    display: block;
+    padding: 10px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    /*background-color: #f5f5f5;*/
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-indent: 0px;
+}
+
+#menuList .menu a {
+    color: #337ab7;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+}
+
+#op_api_box {
+    background: #f5f5f5;
+    padding: 20px;
+    position: relative
+}
+
+#op_api_box .tit {
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
+    font-weight: 500;
+}
+
+#op_api_box .pad {
+    min-width: 70px;
+}
+
+#op_api_box .btn {
+    min-width: 60px;
+}
+
+#op_api_box .op-btn {
+    height: 26px;
+    line-height: 26px;
+    padding: 0px;
+    margin-top: 4px;
+}
+
+#op_api_box .op_title {
+    font-size: 18px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+#exitButton:hover {
+    cursor: pointer;
+    color: #FF5722;
+}
+
+#manager-container .layui-tab-content {
+    padding: 0 10px 0 10px;
+}
+
+.manage-class .layui-layer-content {
+    padding: 0px;
+    margin: 0px;
+}
+
+.manage-class .layui-tab {
+    margin: 0px 0;
+    text-align: left !important;
+}
+
+.manage-class .layui-input {
+    height: 30px;
+    line-height: 30px;
+}
+
+.manage-class .layui-btn {
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: #5cb85c;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.manage-class .layui-btn-xs {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+}
+
+.manage-class .layui-btn-danger {
+    background-color: #FF5722;
+
+}
+
+.manage-class .layui-btn-normal {
+    background-color: #1E9FFF;
+}
+
+.manage-class .layui-btn-warm {
+    background-color: #FFB800;
+}
+
+.manage-class .layui-btn-base {
+    background-color: #5cb85c;
+}
+
+.manage-class .layui-laypage .layui-laypage-curr .layui-laypage-em {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    padding: 1px;
+    width: 100%;
+    height: 100%;
+    background-color: #5cb85c;
+}
+
+#gotop {
+    z-index: 999999;
+    font-size: 18px;
+    display: block;
+    color: rgb(230, 230, 230);
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgb(221, 221, 221);
+    line-height: 42px;
+    text-align: center;
+    background: rgba(91, 192, 222, 0.7);
+    position: fixed;
+    right: 20px;
+    bottom: 200px;
+    border-radius: 50%;
+    box-shadow: rgb(204, 204, 204) 0px 0px 0px 1px;
+}
+
+#gotop i {
+    font-size: 28px;
+}
+
+#gotop:hover {
+    z-index: 999999;
+    font-size: 18px;
+    display: block;
+    color: rgb(230, 230, 230);
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgb(255, 221, 221);
+    line-height: 42px;
+    text-align: center;
+    background: rgba(91, 192, 222, 0.5);
+    position: fixed;
+    right: 20px;
+    bottom: 200px;
+    border-radius: 50%;
+    box-shadow: rgb(204, 204, 204) 0px 0px 0px 1px;
+
+}
+
+#gotop:hover i {
+    color: #FFB800;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+.sort_op_container i {
+    cursor: pointer;
+}
+
+.sort_op_container i:hover {
+    cursor: pointer;
+    color: red;
+}
+
+.op-delete {
+    color: #FF5722
+}
+
+.op-move {
+
+}
+
+.op-button {
+    position: relative;
+    top: 4px;
+    cursor: pointer;
+}
+
+.pars{background:#ffffff;padding:10px 20px 20px 20px}
+.part{background:#ffffff;padding:20px 20px 0 20px}
+.cre_api{background:#f5f5f5;padding:20px;position:relative}
+.info_api{border:1px solid #ddd;margin-bottom:20px;}
+.btns{height:30px;line-height: 30px;}
+#navbarhanlder{text-align:center;line-height:120px;border-bottom-right-radius:5px;cursor:w-resize;border-top-right-radius:5px;width:14px;height:120px;background: rgba(91,192,222, 0.8);position:fixed;left:0;top:260px;color:#fff;box-shadow: 0px 0px 0px 1px #cccccc;}
