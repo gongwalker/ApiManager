@@ -70,8 +70,13 @@ func roleMiddleWare(role int) gin.HandlerFunc {
 }
 
 func InitRouter() *gin.Engine {
-	gin.SetMode(gin.ReleaseMode)
-	gin.DefaultWriter = ioutil.Discard
+	// 运行模式 release,debug,test
+	gin.SetMode(global.GinRunMode)
+
+	// 是否记录运行日志
+	if !global.GinWriteLog {
+		gin.DefaultWriter = ioutil.Discard
+	}
 
 	r := gin.Default()
 	r.Delims("[[", "]]")

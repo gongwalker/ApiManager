@@ -12,6 +12,8 @@ var (
 	SessionDrive            string
 	SessionOption           = make(map[string]interface{})
 	SessionDriveRedisConfig = make(map[string]interface{})
+	GinRunMode              string
+	GinWriteLog             bool
 )
 
 func ReadConfig() {
@@ -50,4 +52,9 @@ func ReadConfig() {
 		SessionDriveRedisConfig["password"], _ = config.GetConfig("session_driver_redis.password")
 	}
 
+	// 运行模式
+	GinRunMode, err = config.GetConfig("site.gin_run_mode")
+
+	// 是否记录运行日志
+	GinWriteLog, err = config.GetConfigToBool("site.gin_write_log")
 }
