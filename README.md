@@ -57,6 +57,19 @@
 
 
 ### 系统长什么样
+![image](https://github.com/gongwalker/ApiManager/blob/master/app/static/show/1.jpg?raw=true)
+
+![image](https://github.com/gongwalker/ApiManager/blob/master/app/static/show/2.jpg?raw=true)
+
+![image](https://github.com/gongwalker/ApiManager/blob/master/app/static/show/3.jpg?raw=true)
+
+![image](https://github.com/gongwalker/ApiManager/blob/master/app/static/show/4.jpg?raw=true)
+
+![image](https://github.com/gongwalker/ApiManager/blob/master/app/static/show/5.jpg?raw=true)
+
+
+
+
 
 
 ### 作者信息
