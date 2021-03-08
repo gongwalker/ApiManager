@@ -15,8 +15,8 @@
 * go get github.com/gongwalker/ApiManager
 * go mod vendor
 * go build
-* 运行 ./run.sh start|grep
-* 浏览器打开 http://your_host:8000
+* 运行 ./run.sh start|stop
+* 浏览器打开 http://your_host:8000 (账号密码 root 123456)
 
 ### 方法二 直接使用
 
