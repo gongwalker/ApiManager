@@ -9,8 +9,19 @@ new Vue({
             PassWord: ''
         }
     },
+    mounted() {
+        window.addEventListener('keydown',this.keyDown);
+    },
+    destroyed() {
+        window.removeEventListener('keydown',this.keyDown,false);
+    },
     methods: {
-        SignIn() {
+        keyDown(e){
+            if(e.keyCode == 13){
+                this.SignIn()
+            }
+        }
+        ,SignIn() {
             let that = this;
             let username = that.UserName.trim();
             let password = that.PassWord.trim();
