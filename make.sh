@@ -13,7 +13,7 @@ build() {
     cp -rp db.sql config releases/ApiManager-${os}-amd64/ &&
     cp -rp app/static app/views releases/ApiManager-${os}-amd64/app
 
-  if [ $os = linux ] || [ $os = mac ]; then
+  if [ $os = linux ] || [ $os = darwin ] || [ $os = mac ]; then
     cp -rp run.sh config releases/ApiManager-${os}-amd64/
   fi
 
