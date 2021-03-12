@@ -19,24 +19,16 @@
 * 浏览器打开 http://your_host:8000 (账号密码 root 123456)
 
 ### 方法二 直接使用
-
-#### Linux环境
 * 进入 https://github.com/gongwalker/ApiManager/releases
-* 下载 ApiManager-v2.1.0-linux-amd64.zip 并解压
+
+```
+根据您的系统环境，下载 相应系统环境的可执行文件压缩包
+linux ApiManager-linux-amd64.zip
+windows ApiManager-windows-amd64.zip
+mac ApiManager-darwin-amd64.zip
+```
 * 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
 * 运行 ./run.sh start|stop
-
-#### Windows环境
-* 进入 https://github.com/gongwalker/ApiManager/releases
-* 下载 ApiManager-v2.1.0-windows-amd64.zip 并解压
-* 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
-
-#### Mac环境
-* 进入 https://github.com/gongwalker/ApiManager/releases
-* 下载 ApiManager-v2.1.0-mac.zip 并解压
-* 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
-* 运行 ./run.sh start|stop
-
 
 
 ### 使用说明
