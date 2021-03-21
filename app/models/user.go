@@ -3,6 +3,8 @@ package models
 import (
 	bt "ApiManager/app/bootstrap"
 	"ApiManager/app/libs"
+	"errors"
+	"strings"
 )
 
 type User struct {
@@ -22,8 +24,8 @@ type UserBase struct {
 // 用户登录
 func Login(loginname, password string) (u User, err error) {
 	password = libs.Md5([]byte(password))
-	_sql := "SELECT id, login_name, nice_name,role FROM user WHERE login_name=? and login_pwd=? and isdel=0 LIMIT 1"
-	err = bt.DbCon.QueryRow(_sql, loginname, password).Scan(&u.Id, &u.LoginName, &u.NiceName, &u.Role)
+	_sql := "SELECT id, login_name, nice_name,role,isdel FROM user WHERE login_name=? and login_pwd=? LIMIT 1"
+	err = bt.DbCon.QueryRow(_sql, loginname, password).Scan(&u.Id, &u.LoginName, &u.NiceName, &u.Role, &u.IsDel)
 	return
 }
 
@@ -51,6 +53,7 @@ func (u *UserBase) Lists(limit string, order string, filters ...string) (users [
 				users = append(users, *u)
 			}
 		}
+		rows.Close()
 	}
 	return
 }
@@ -94,5 +97,45 @@ func (u *User) RestUserPwd() (affect int64, err error) {
 		return
 	}
 	affect, err = res.RowsAffected()
+	return
+}
+
+// 得到用户详情
+func (u *User) GetUserInfoByUid(fields []string) (userInfoMap map[string]interface{}, err error) {
+	if len(fields) == 0 {
+		err = errors.New("please specify the field")
+		return
+	}
+	fieldStr := "`" + strings.Join(fields, "`,`") + "`"
+	_sql := "SELECT " + fieldStr + " FROM user WHERE id = ?"
+
+	rows, err := bt.DbCon.Query(_sql, u.Id)
+	defer rows.Close()
+
+	if err != nil {
+		return
+	}
+
+	columns, _ := rows.Columns()
+	columnsLen := len(columns)
+
+	// 定义切片用来存入临时存储每行数据
+	fieldsValue := make([]interface{}, columnsLen)
+
+	// 为查询字段每一列,初始化一个指针
+	for index := range fieldsValue {
+		var tmp interface{}
+		fieldsValue[index] = &tmp
+	}
+
+	// 初始化待返回的map数组
+	userInfoMap = make(map[string]interface{}, columnsLen)
+
+	for rows.Next() {
+		_ = rows.Scan(fieldsValue...)
+		for i, val := range fieldsValue {
+			userInfoMap[columns[i]] = *(val.(*interface{}))
+		}
+	}
 	return
 }

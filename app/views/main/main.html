@@ -85,7 +85,7 @@
                     style="font-size:16px;position: relative;top:-4px;">Welcome to ApiManager v2.1
 
 </span><br>
-            <pre class="info" style="margin:10px 34px 10px 34px">What is ApiManager?<br><br>API manager is an online API document management system, which is committed to quickly solve the internal interface document writing, maintenance, query and archiving. Reduce the cost of teamwork and communication, improve work efficiency.<br><br>enjoy coding...
+            <pre class="info" style="margin:10px 34px 10px 34px">What is ApiManager?<br><br>ApiManager is an online API document management system, which is committed to quickly solve the internal interface document writing, maintenance, query and archiving. Reduce the cost of teamwork and communication, improve work efficiency.<br><br>enjoy coding...
             </pre>
         </div>
 
@@ -202,7 +202,8 @@
                     {{# } }}
 
                     {{# if(boolRole(window.role == 1 || window.role == 2)){ }}
-                    <button data-tit='{{=item.name}}' data-id='{{=item.id}}' style="margin-left:6px;" class="btn btn-primary btn-xs"
+                    <button data-tit='{{=item.name}}' data-id='{{=item.id}}' style="margin-left:6px;"
+                            class="btn btn-primary btn-xs"
                             onclick="duplicateApi(this)">
                         duplicate
                     </button>
@@ -266,10 +267,11 @@
         {{# }); }}
 
         {{# if(d.length == 0){ }}
-    <div style="color:#FFB800;text-align: center;font-size:18px;margin:40px 0 0 0">
-        This collection is empty. {{# if(boolRole(window.role == 1 || window.role == 2)){ }}<span style="color:#4cae4c;cursor:pointer" onclick="CreateApi()">New Api</span> to
+        <div style="color:#FFB800;text-align: center;font-size:18px;margin:40px 0 0 0">
+            This collection is empty. {{# if(boolRole(window.role == 1 || window.role == 2)){ }}<span
+                style="color:#4cae4c;cursor:pointer" onclick="CreateApi()">New Api</span> to
         this collection create an Api.{{# } }}
-    </div>
+        </div>
         {{# } }}
     </div>
 
@@ -284,7 +286,8 @@
         <ul class="list-unstyled" style="padding:10px">
             {{#  layui.each(d, function(index, item){ }}
             <li class="menu" id="api_{{=item.id}}">
-                <a class="api-term" data-id="{{=item.id}}" data-num="{{=item.num}}" data-cname="{{=item.name}}" href="/m/cate?aid={{=item.aid}}#info_api_{{=item.id}}" id="menu_{{=item.id}}">
+                <a class="api-term" data-id="{{=item.id}}" data-num="{{=item.num}}" data-cname="{{=item.name}}"
+                   href="/m/cate?aid={{=item.aid}}#info_api_{{=item.id}}" id="menu_{{=item.id}}">
                     <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     {{=item.name}}
                 </a>
@@ -377,7 +380,8 @@
                                 <td>
                                     <i onclick="sort_api(this,'up')" class="layui-icon layui-icon-up op-button"></i>
                                     <i onclick="sort_api(this,'down')" class="layui-icon layui-icon-down op-button"></i>
-                                    <i onclick="delParam(this)" class="layui-icon layui-icon-delete op-button op-delete"></i>
+                                    <i onclick="delParam(this)"
+                                       class="layui-icon layui-icon-delete op-button op-delete"></i>
                                 </td>
                             </tr>
                             </tbody>
@@ -463,7 +467,8 @@
                             {{getApiParamsViewForEdit(d.parameter)}}
                             </tbody>
                         </table>
-                        <textarea name="st" rows="3" class="form-control" placeholder="Request Note">{{=d.st}}</textarea>
+                        <textarea name="st" rows="3" class="form-control"
+                                  placeholder="Request Note">{{=d.st}}</textarea>
                     </div>
                     <div class="form-group">
                         <h5 class="tit">Response</h5>
@@ -484,15 +489,16 @@
 <script id="header-control-bar" type="text/html">
     <span id="topbutton">
         {{# if(boolRole(window.role == 1) && d.export){ }}
-        <a id="exportButton"  onclick="doExport()" href="javascript:void(0)">export</a>&nbsp;&nbsp;
+        <a id="exportButton" onclick="doExport()" href="javascript:void(0)">export</a>&nbsp;&nbsp;
         {{# } }}
         {{# if(boolRole(window.role == 1) && d.sort){ }}
-        <a id="sortButton"  onclick="doSort()" href="javascript:void(0)">sort</a>&nbsp;&nbsp;
+        <a id="sortButton" onclick="doSort()" href="javascript:void(0)">sort</a>&nbsp;&nbsp;
         {{# } }}
         {{# if(boolRole(window.role == 1)){ }}
         <a onclick="doSet()" href="javascript:void(0)">manage</a>&nbsp;&nbsp;
         {{# } }}
-        <span class="t" onclick="resetPwd(this)" data-id="{{=d.id}}" data-login_name="{{=d.name}}" onclick="">{{=d.name}}</span>
+        <span class="t" onclick="resetPwd(this)" data-id="{{=d.id}}" data-login_name="{{=d.name}}"
+              onclick="">{{=d.name}}</span>
         <span id="exitButton" onclick="doExit()">
             <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
         </span>

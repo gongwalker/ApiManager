@@ -5,7 +5,7 @@ import (
 )
 
 // 添加用户，验证错误自定义返回错误文案
-func  AddUserGetError(err validator.ValidationErrors) string {
+func AddUserGetError(err validator.ValidationErrors) string {
 	for n := range err {
 		if err[n].Field() == "LoginName" {
 			switch err[n].Tag() {
@@ -45,7 +45,7 @@ func  AddUserGetError(err validator.ValidationErrors) string {
 }
 
 // 编辑用户，验证错误自定义返回错误文案
-func  EditUserGetError(err validator.ValidationErrors) string {
+func EditUserGetError(err validator.ValidationErrors) string {
 	for n := range err {
 		if err[n].Field() == "LoginName" {
 			switch err[n].Tag() {
@@ -75,7 +75,7 @@ func  EditUserGetError(err validator.ValidationErrors) string {
 }
 
 // 重置密码，验证错误自定义返回错误文案
-func  RestPwdGetError(err validator.ValidationErrors) string {
+func RestPwdGetError(err validator.ValidationErrors) string {
 	for n := range err {
 		if err[n].Field() == "LoginPwd" {
 			switch err[n].Tag() {

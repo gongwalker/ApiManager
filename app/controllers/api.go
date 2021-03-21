@@ -40,8 +40,8 @@ func ListApi(c *gin.Context) {
 	cateInfo, _ := cate.Info()
 	apis := api.Lists()
 	type cateContainer struct {
-		Apis *([]models.Api) `json:"apis"`
-		Info *(models.Cate)  `json:"info"`
+		Apis *[]models.Api `json:"apis"`
+		Info *models.Cate  `json:"info"`
 	}
 	c.JSON(http.StatusOK, gin.H{"msg": "success", "data": cateContainer{Apis: &apis, Info: &cateInfo}})
 }
@@ -175,8 +175,8 @@ func DoDuplicateApi(c *gin.Context) {
 }
 
 // 排序
-func SortApi(c *gin.Context){
-	ids :=c.PostFormArray("ids[]")
+func SortApi(c *gin.Context) {
+	ids := c.PostFormArray("ids[]")
 	api := models.Api{}
 	err := api.Sort(ids)
 	if err != nil {
@@ -184,6 +184,5 @@ func SortApi(c *gin.Context){
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"msg": "Sort api list success"})
-
 
 }

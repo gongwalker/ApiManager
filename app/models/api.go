@@ -3,7 +3,6 @@ package models
 import (
 	bt "ApiManager/app/bootstrap"
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -29,7 +28,7 @@ type Api struct {
 
 func (api *Api) Lists() (apis []Api) {
 	_sql := "SELECT " +
-		"a.id,a.aid,a.num,a.url,a.name,a.des,a.parameter,a.parameter_text,a.memo," +
+		"a.id,a.aid,a.num,a.url,a.name,a.des,a.parameter,IFNULL(a.parameter_text,'') as parameter_text,a.memo," +
 		"a.re,a.lasttime,a.lastuid,a.isdel,a.type,a.ord,IFNULL(u.login_name,'') as login_name " +
 		"FROM `api` as a " +
 		"LEFT JOIN user as u " +
@@ -60,7 +59,7 @@ func (api *Api) Lists() (apis []Api) {
 		)
 		apis = append(apis, *api)
 		if err != nil {
-			fmt.Print(err.Error())
+			panic(err.Error())
 		}
 	}
 	return
@@ -153,8 +152,8 @@ func (api *Api) Delete() (err error) {
 }
 
 func (api *Api) DuplicateApi() (err error) {
-	_sql := "insert into api (aid,num,url,des,parameter,memo,re,type,name,lasttime,lastuid) " +
-		"select aid,num,url,des,parameter,memo,re,type,?,?,? from api where id=?"
+	_sql := "insert into api (aid,num,url,des,parameter,parameter_text,memo,re,type,name,lasttime,lastuid) " +
+		"select aid,num,url,des,parameter,parameter_text,memo,re,type,?,?,? from api where id=?"
 	_, err = bt.DbCon.Exec(_sql, api.Name, api.Lasttime, api.Lastuid, api.Id)
 	return
 }
@@ -172,6 +171,5 @@ func (api *Api) Sort(ids []string) (err error) {
 	_sql += " END "
 	_sql += "WHERE id IN(" + strings.Join(ids, ",") + ")"
 	_, err = bt.DbCon.Exec(_sql)
-	fmt.Println(_sql)
 	return
 }

@@ -1,13 +1,11 @@
 package Validators
 
 import (
-	"fmt"
 	"github.com/go-playground/validator/v10"
 )
 
-
 // 添加分类，验证错误自定义返回错误文案
-func  AddCateGetError(err validator.ValidationErrors) string {
+func AddCateGetError(err validator.ValidationErrors) string {
 	for n := range err {
 		if err[n].Field() == "Cname" {
 			switch err[n].Tag() {
@@ -31,9 +29,8 @@ func  AddCateGetError(err validator.ValidationErrors) string {
 	return "Parameter error"
 }
 
-
 // 添加分类，验证错误自定义返回错误文案
-func  EditCateGetError(err validator.ValidationErrors) string {
+func EditCateGetError(err validator.ValidationErrors) string {
 	for n := range err {
 		if err[n].Field() == "Aid" {
 			switch err[n].Tag() {
@@ -61,7 +58,6 @@ func  EditCateGetError(err validator.ValidationErrors) string {
 		}
 
 		if err[n].Field() == "Csort" {
-			fmt.Print(err[n])
 			switch err[n].Tag() {
 			case "gte":
 				fallthrough

@@ -10,9 +10,8 @@ type Cate struct {
 	Cdesc   string `json:"cdesc"`
 	Csort   int    `json:"csort"`
 	IsDel   int    `json:"isdel"`
-	Addtime int  `json:"addtime"`
+	Addtime int    `json:"addtime"`
 }
-
 
 func (cate *Cate) Add() (err error) {
 	_sql := "INSERT INTO `cate` ( `addtime`, `cdesc`, `cname`, `isdel`) values ( ?, ?, ?, '0')"
@@ -39,7 +38,7 @@ func (cate *Cate) Info() (c Cate, err error) {
 	return
 }
 
-func (cate *Cate) Edit()(err error) {
+func (cate *Cate) Edit() (err error) {
 	_sql := "update `cate` set  `cname`= ? , `cdesc` = ?,`ord` = ? where aid =?"
 	_, err = bt.DbCon.Exec(_sql, cate.Cname, cate.Cdesc, cate.Csort, cate.Aid)
 	return

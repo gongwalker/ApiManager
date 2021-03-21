@@ -54,7 +54,7 @@ function html_decode(str) {
 }
 
 // 模板渲染
-function render(tplId, viewId, data,callback) {
+function render(tplId, viewId, data, callback) {
     if (data == null) data = []
     let layer
     layui.use('layer', function () {
@@ -68,7 +68,7 @@ function render(tplId, viewId, data,callback) {
         });
 
         // 解决跳描点问题
-        if(callback){
+        if (callback) {
             callback()
         }
     });
@@ -93,15 +93,15 @@ function ajaxReq(dataReq, successFun) {
             successFun(data);
         },
         error: function (data) {
-            layui.use(['layer', 'table', 'element', 'form'], function(){
-                if(data.status == 401){
+            layui.use(['layer', 'table', 'element', 'form'], function () {
+                if (data.status == 401) {
                     layer.msg(data.responseJSON.msg, {
                         icon: 5
-                        ,time:1000,
-                    },function(){
+                        , time: 1000,
+                    }, function () {
                         location.href = "/login"
                     })
-                }else{
+                } else {
                     layer.msg(data.responseJSON.msg, {
                         icon: 5
                     })
@@ -244,9 +244,9 @@ function getCollectionApi(aid, callback) {
         // 渲染菜单表
         render('apimenu', 'menuList', cateApiList);
         // 渲染详情列表
-        render('apiinfo', 'modelWindow', cateApiList,function(){
+        render('apiinfo', 'modelWindow', cateApiList, function () {
             let thisId = window.location.hash;
-            if (thisId != "" && thisId != undefined){
+            if (thisId != "" && thisId != undefined) {
                 location.href = thisId;
             }
         });
@@ -318,9 +318,9 @@ function addParam() {
         '<textarea name="p[des][]" rows="1" class="form-control" placeholder="description"></textarea>' +
         '</td>' +
         '<td>' +
-            '<i onclick="sort_api(this,\'up\')" class="layui-icon layui-icon-up op-button"></i>'+
-            ' <i onclick="sort_api(this,\'down\')" class="layui-icon layui-icon-down op-button"></i>'+
-            ' <i onclick="delParam(this)" class="layui-icon layui-icon-delete op-button op-delete"></i>'+
+        '<i onclick="sort_api(this,\'up\')" class="layui-icon layui-icon-up op-button"></i>' +
+        ' <i onclick="sort_api(this,\'down\')" class="layui-icon layui-icon-down op-button"></i>' +
+        ' <i onclick="delParam(this)" class="layui-icon layui-icon-delete op-button op-delete"></i>' +
         '</td>' +
         '</tr >';
     $('#parameter').append($html);
@@ -649,14 +649,14 @@ function doSort() {
             yes: function () {
                 let trs = $('#sort-container .sort_api');
                 let ids = [];
-                $(trs).each(function(i,obj){
+                $(trs).each(function (i, obj) {
                     ids.push($(obj).data('id'));
                 })
 
                 let data = {
                     url: '/api/sort',
                     method: 'post',
-                    data: {ids:ids}
+                    data: {ids: ids}
                 }
 
                 ajaxReq(data, function (data) {
@@ -1047,16 +1047,16 @@ function resetPwd(obj) {
 }
 
 // 排序
-function sort_api(obj,type){
+function sort_api(obj, type) {
     let current = $(obj).parent().parent(); //获取当前<tr>
-    switch(type){
+    switch (type) {
         case 'up':
             let prev = current.prev();  //获取当前<tr>前一个元素
             if (current.index() > 0) {
                 current.insertBefore(prev); //插入到当前<tr>前一个元素前
                 current.hide(0).fadeIn(666)
-            }else{
-                layer.msg("It's at the top",{icon:5});
+            } else {
+                layer.msg("It's at the top", {icon: 5});
             }
             break;
         case 'down':
@@ -1064,8 +1064,8 @@ function sort_api(obj,type){
             if (next.index() > 0) {
                 current.insertAfter(next);//插入到当前<tr>后面一个元素后面
                 current.hide(0).fadeIn(666)
-            }else{
-                layer.msg("It's at the bottom",{icon:5});
+            } else {
+                layer.msg("It's at the bottom", {icon: 5});
             }
             break;
     }

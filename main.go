@@ -1,5 +1,4 @@
 /**********************************************
-** @Des: parse config file
 ** @Author: gongwen [https://www.gwalker.cn]
 ** @Date:   2018-10-03 15:42:43
 ** @Last Modified by:   gongwen

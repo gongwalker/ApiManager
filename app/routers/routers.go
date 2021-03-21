@@ -4,6 +4,7 @@ import (
 	"ApiManager/app/controllers"
 	"ApiManager/app/global"
 	"ApiManager/app/libs"
+	"ApiManager/app/models"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-contrib/sessions/redis"
@@ -22,16 +23,27 @@ func authMiddleWare() gin.HandlerFunc {
 		uid := session.Get("uid")
 		role := session.Get("role")
 		if uid == nil {
-			// 在登录失效的前提下,根据请求的类型(是否为ajax请求) 判断返回返回待登录标识,还是直接跳转到登录页
-			if c.GetHeader("X-Requested-With") == "XMLHttpRequest" {
-				c.JSON(http.StatusUnauthorized, gin.H{"msg": "Please login"})
-			} else {
-				c.Header("Content-Type", "text/html; charset=utf-8")
-				c.String(http.StatusUnauthorized, "<script>location.href='/login'</script>")
-			}
-			c.Abort()
+			controllers.JumpLogin(c)
 			return
 		} else {
+			sessionUid, _ := uid.(int)
+			sessionRole := role.(int)
+
+			user := models.User{Id: sessionUid}
+			curUserInfo, _ := user.GetUserInfoByUid([]string{"id", "role", "isdel"})
+
+			// 签定当前账号是否已被禁用
+			if curUserInfo["isdel"].(int64) == 1 {
+				controllers.JumpLogin(c)
+				return
+			}
+
+			// 签定session存放角色值与当前角色值是否一致，若不一致重新登录
+			if int(curUserInfo["role"].(int64)) != sessionRole {
+				controllers.JumpLogin(c)
+				return
+			}
+
 			c.Set("UID", uid)
 			c.Set("ROLE", role)
 		}

@@ -5,7 +5,7 @@ import (
 )
 
 // 添加 or 编辑Api，验证错误自定义返回错误文案
-func  ApiGetError(err validator.ValidationErrors) string {
+func ApiGetError(err validator.ValidationErrors) string {
 	for n := range err {
 		if err[n].Field() == "ParamName" {
 			switch err[n].Tag() {
@@ -52,7 +52,6 @@ func  ApiGetError(err validator.ValidationErrors) string {
 	}
 	return "Parameter error"
 }
-
 
 func ParamName(fl validator.FieldLevel) bool {
 	if paraname, ok := fl.Field().Interface().([]string); ok {

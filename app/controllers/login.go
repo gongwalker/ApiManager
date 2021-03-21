@@ -47,6 +47,11 @@ func DoLogin(c *gin.Context) {
 		return
 	}
 
+	if user.IsDel == 1 {
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "Account has been disabled"})
+		return
+	}
+
 	// 登录成功session设置
 	session := sessions.Default(c)
 	session.Set("uid", user.Id)
@@ -64,13 +69,28 @@ func DoLogin(c *gin.Context) {
 
 // 退出操作
 func DoExit(c *gin.Context) {
+	DestroySession(c)
+	c.JSON(http.StatusOK, gin.H{"msg": "success"})
+	return
+}
+
+func DestroySession(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()
 	// 注 把maxAge置为负数 清除 redis存放没有意义session-key(相当于把session.clear()过的session_key 设置了expire失效时间)
 	// 且 清除客户端cookie
 	session.Options(sessions.Options{MaxAge: -1, Domain: "", Secure: false, HttpOnly: true, Path: "/"})
 	session.Save()
-	// 在session
-	c.JSON(http.StatusOK, gin.H{"msg": "success"})
-	return
+}
+
+func JumpLogin(c *gin.Context) {
+	DestroySession(c)
+	// 在登录失效的前提下,根据请求的类型(是否为ajax请求) 判断返回返回待登录标识,还是直接跳转到登录页
+	if c.GetHeader("X-Requested-With") == "XMLHttpRequest" {
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "Please login"})
+	} else {
+		c.Header("Content-Type", "text/html; charset=utf-8")
+		c.String(http.StatusUnauthorized, "<script>location.href='/login'</script>")
+	}
+	c.Abort()
 }

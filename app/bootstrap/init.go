@@ -34,7 +34,7 @@ func initDatabase() {
 
 	err = DbCon.Ping()
 	if err != nil {
-		log.Fatal("[MYSQL ERROR] ",err.Error())
+		log.Fatal("[MYSQL ERROR] ", err.Error())
 	}
 	DbCon.SetMaxIdleConns(10)
 	DbCon.SetMaxOpenConns(50)

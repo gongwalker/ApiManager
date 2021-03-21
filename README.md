@@ -17,11 +17,13 @@
 ### 方法一 编译安装
 * 在MySQL中创建mysql数据库，db.sql导入
 * 修改 /config/config.ini 配置文件，修改数据库连接信息
-* go get github.com/gongwalker/ApiManager
+* git clone git@github.com:gongwalker/ApiManager.git
+  或者
+  git clone git@gitee.com:gongwalker/ApiManager.git
 * go mod vendor
 * go build
 * 运行 ./run.sh start|stop
-* 浏览器打开 http://your_host:8000 (账号密码 root 123456)
+* 浏览器打开 http://your_host:8000 (账号: root 密码: 123456)
 
 ### 方法二 直接使用
 * 进入 https://github.com/gongwalker/ApiManager/releases

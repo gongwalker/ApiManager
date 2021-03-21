@@ -4,9 +4,8 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-
 // 登录参数校验，验证错误自定义返回错误文案
-func  LogInGetError(err validator.ValidationErrors) string {
+func LogInGetError(err validator.ValidationErrors) string {
 	for n := range err {
 		if err[n].Field() == "Username" {
 			switch err[n].Tag() {
