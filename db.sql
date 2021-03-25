@@ -1,13 +1,13 @@
 # ************************************************************
 # Sequel Pro SQL dump
-# Version 4541
+# Version 5438
 #
-# http://www.sequelpro.com/
+# https://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.6.49)
-# Database: api
-# Generation Time: 2021-03-07 13:13:46 +0000
+# Host: 127.0.0.1 (MySQL 5.7.30)
+# Database: apidoc
+# Generation Time: 2021-03-25 06:58:43 +0000
 # ************************************************************
 
 
@@ -15,6 +15,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+SET NAMES utf8mb4;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
@@ -33,9 +34,9 @@ CREATE TABLE `api` (
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '接口名',
   `des` varchar(300) NOT NULL DEFAULT '' COMMENT '接口描述',
   `parameter` text COMMENT '请求参数{所有的主求参数,以json格式在此存放}',
-  `parameter_text` text,
-  `memo` text COMMENT '备注',
-  `re` text COMMENT '返回值',
+  `parameter_text` longtext COMMENT '请求参数 存body请求体等',
+  `memo` longtext COMMENT '备注',
+  `re` longtext COMMENT '返回值',
   `lasttime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '提后操作时间',
   `lastuid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改uid',
   `isdel` tinyint(4) NOT NULL DEFAULT '0' COMMENT '{0:正常,1:删除}',
@@ -120,8 +121,8 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` (`id`, `nice_name`, `login_name`, `last_time`, `login_pwd`, `isdel`, `role`)
 VALUES
 	(1,'root','root',1614954208,'e10adc3949ba59abbe56e057f20f883e',0,1),
-	(2,'admin','admin',0,'e10adc3949ba59abbe56e057f20f883e',0,2),
-	(3,'guest','guest',0,'c33367701511b4f6020ec61ded352059',0,3);
+	(2,'admin','admin',1614954208,'e10adc3949ba59abbe56e057f20f883e',0,2),
+	(3,'guest','guest',1614954208,'e10adc3949ba59abbe56e057f20f883e',0,3);
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;

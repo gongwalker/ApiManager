@@ -18,9 +18,9 @@ type apiRequest struct {
 	Url  string `json:"url" form:"url" binding:"required,max=200"`
 	Des  string `json:"des" form:"des" binding:"omitempty,max=200"`
 	Type string `json:"type" form:"type" binding:"omitempty"`
-	Re   string `json:"re" form:"re" binding:"omitempty,max=2000"`
-	St   string `json:"st" form:"st" binding:"omitempty,max=2000"`
-	Memo string `json:"memo" form:"memo" binding:"omitempty,max=2000"`
+	Re   string `json:"re" form:"re" binding:"omitempty,max=100000"`
+	St   string `json:"st" form:"st" binding:"omitempty,max=100000"`
+	Memo string `json:"memo" form:"memo" binding:"omitempty,max=100000"`
 	params
 }
 

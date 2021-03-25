@@ -38,15 +38,15 @@ func ApiGetError(err validator.ValidationErrors) string {
 		}
 
 		if err[n].Field() == "Re" {
-			return "Api response length should be between 1 and 2000"
+			return "Api response length should be between 1 and 100000"
 		}
 
 		if err[n].Field() == "St" {
-			return "Api Request Note length should be between 1 and 2000"
+			return "Api Request Note length should be between 1 and 100000"
 		}
 
 		if err[n].Field() == "Memo" {
-			return "Api Memo length should be between 1 and 2000"
+			return "Api Memo length should be between 1 and 100000"
 		}
 
 	}
