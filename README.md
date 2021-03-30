@@ -9,18 +9,7 @@
 > 不要改密码哟 :)
 
 ## 安装方法
-### 方法一 编译安装
-* 在MySQL中创建mysql数据库，db.sql导入
-* 修改 /config/config.ini 配置文件，修改数据库连接信息
-* git clone git@github.com:gongwalker/ApiManager.git
-  或者
-  git clone git@gitee.com:gongwalker/ApiManager.git
-* go mod vendor
-* go build
-* 运行 ./run.sh start|stop
-* 浏览器打开 http://your_host:8000 (账号: root 密码: 123456)
-
-### 方法二 直接使用
+### 方法一 直接使用 (推荐)
 * 进入 https://github.com/gongwalker/ApiManager/releases
 
 ```
@@ -31,6 +20,19 @@ mac ApiManager-darwin-amd64.zip
 ```
 * 进入解压目录，设置数据库(创建数据库，导入db.sql) 与 配置文件(config/config.conf)
 * 运行 ./run.sh start|stop
+* 浏览器打开 http://your_host:8000 (账号: root 密码: 123456)
+
+
+### 方法二 编译安装
+* 在MySQL中创建mysql数据库，db.sql导入
+* 修改 /config/config.ini 配置文件，修改数据库连接信息
+* git clone git@github.com:gongwalker/ApiManager.git
+  或者
+  git clone git@gitee.com:gongwalker/ApiManager.git
+* go mod vendor
+* go build
+* 运行 ./run.sh start|stop
+* 浏览器打开 http://your_host:8000 (账号: root 密码: 123456)
 
 
 ### 使用说明
@@ -63,13 +65,12 @@ mac ApiManager-darwin-amd64.zip
 
 
 
-
-
-
 ### 作者信息
-* :email:	gongcoder@gmail.com
-* blog:	[https://www.gwalker.cn](https://www.gwalker.cn)
+* Email:	gongcoder@gmail.com
+* Blog:	[https://www.gwalker.cn](https://www.gwalker.cn)
 
 
-### 最后
+### 写在最后
 非常欢迎大家贡献代码，让这个项目成长的更好。
+
+![image](https://github.com/gongwalker/ApiManager/blob/master/app/static/show/me.jpg?raw=true)
