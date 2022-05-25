@@ -12,16 +12,16 @@ func AddCateGetError(err validator.ValidationErrors) string {
 			case "required":
 				return "Please input collection"
 			case "max":
-				return "The description is more than " + err[n].Param() + " characters in length"
+				return "The description is more than " + err[n].Param() + " characters in length!"
 			}
 
 		}
 		if err[n].Field() == "Cdesc" {
 			switch err[n].Tag() {
 			case "required":
-				return "Please input description"
+				return "Please input description!"
 			case "max":
-				return "The description is more than " + err[n].Param() + " characters in length"
+				return "The description is more than " + err[n].Param() + " characters in length!"
 			}
 		}
 	}
