@@ -43,8 +43,8 @@ func initDatabase() {
 // 加载自定义表单验证器
 func initValidation() {
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		v.RegisterValidation("param_name", Validators.ParamName)
-		v.RegisterValidation("param_type", Validators.ParamType)
+		_ = v.RegisterValidation("param_name", Validators.ParamName)
+		_ = v.RegisterValidation("param_type", Validators.ParamType)
 	}
 }
 
