@@ -2,6 +2,7 @@ package models
 
 import (
 	bt "ApiManager/app/bootstrap"
+	"database/sql"
 	"errors"
 	"strconv"
 	"strings"
@@ -37,7 +38,9 @@ func (api *Api) Lists() (apis []Api) {
 		"ORDER BY a.ord asc,a.id desc"
 
 	rows, _ := bt.DbCon.Query(_sql, api.Aid)
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		_ = rows.Close()
+	}(rows)
 	for rows.Next() {
 		err := rows.Scan(
 			&api.Id,

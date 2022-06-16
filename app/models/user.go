@@ -3,6 +3,7 @@ package models
 import (
 	bt "ApiManager/app/bootstrap"
 	"ApiManager/app/libs"
+	"database/sql"
 	"errors"
 	"strings"
 )
@@ -43,6 +44,11 @@ func (u *UserBase) Lists(limit string, order string, filters ...string) (users [
 	if count > 0 {
 		_sqlList := "SELECT id,login_name,role,isdel FROM `user` WHERE " + where + " ORDER BY " + order + " LIMIT " + limit
 		rows, err_ := bt.DbCon.Query(_sqlList)
+
+		defer func(rows *sql.Rows) {
+			_ = rows.Close()
+		}(rows)
+
 		if err_ != nil {
 			err = err_
 			return
@@ -53,7 +59,6 @@ func (u *UserBase) Lists(limit string, order string, filters ...string) (users [
 				users = append(users, *u)
 			}
 		}
-		rows.Close()
 	}
 	return
 }

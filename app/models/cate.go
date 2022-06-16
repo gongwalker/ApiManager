@@ -2,6 +2,7 @@ package models
 
 import (
 	bt "ApiManager/app/bootstrap"
+	"database/sql"
 )
 
 type Cate struct {
@@ -22,7 +23,9 @@ func (cate *Cate) Add() (err error) {
 func (cate *Cate) Lists() (cates []Cate) {
 	_sql := "select aid,cname,cdesc from `cate` where isdel=0 order by ord desc,aid desc  "
 	rows, _ := bt.DbCon.Query(_sql)
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		_ = rows.Close()
+	}(rows)
 	for rows.Next() {
 		err := rows.Scan(&cate.Aid, &cate.Cname, &cate.Cdesc)
 		if err == nil {
