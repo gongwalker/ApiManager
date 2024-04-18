@@ -8,19 +8,19 @@
 case $1 in
 start)
 nohup ./ApiManager 2>&1 >> run.log 2>&1 /dev/null &
-echo "服务已启动..."
+echo "服务已启动"
 sleep 1
 ;;
 stop)
 killall ApiManager
-echo "服务已停止..."
+echo "服务已停止"
 sleep 1
 ;;
 restart)
 killall ApiManager
 sleep 1
 nohup ./ApiManager 2>&1 >> run.log 2>&1 /dev/null &
-echo "服务已重启..."
+echo "服务已重启"
 sleep 1
 ;;
 *)
