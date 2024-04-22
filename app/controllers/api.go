@@ -21,6 +21,7 @@ type apiRequest struct {
 	Re   string `json:"re" form:"re" binding:"omitempty,max=100000"`
 	St   string `json:"st" form:"st" binding:"omitempty,max=100000"`
 	Memo string `json:"memo" form:"memo" binding:"omitempty,max=100000"`
+	Extend string `json:"extend" form:"extend" binding:"omitempty,max=100000"`
 	params
 }
 
