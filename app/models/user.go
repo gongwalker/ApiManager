@@ -74,7 +74,7 @@ func (u *User) AddUser() (id int64, err error) {
 	return
 }
 
-// 禁用 or 开户 用户
+// 禁用 or 开启 用户
 func (u *User) SwitchUser() (affect int64, err error) {
 	res, err := bt.DbCon.Exec("UPDATE `user` SET isdel = ? where id=?", u.IsDel, u.Id)
 	if err != nil {
