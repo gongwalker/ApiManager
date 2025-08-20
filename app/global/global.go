@@ -33,6 +33,9 @@ func ReadConfig() {
 	DbConfig["password"], _ = config.GetConfig("mysql.password")
 	DbConfig["database"], _ = config.GetConfig("mysql.database")
 	DbConfig["port"], _ = config.GetConfig("mysql.port")
+	DbConfig["max_idle_conns"], _ = config.GetConfig("mysql.max_idle_conns")
+	DbConfig["max_open_conns"], _ = config.GetConfig("mysql.max_open_conns")
+	DbConfig["conn_max_lifetime"], _ = config.GetConfig("mysql.conn_max_lifetime")
 
 	// session驱动类型
 	SessionDrive, _ = config.GetConfig("session.driver")

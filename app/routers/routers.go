@@ -4,14 +4,17 @@ import (
 	"ApiManager/app/controllers"
 	"ApiManager/app/global"
 	"ApiManager/app/libs"
+	"ApiManager/app/middleware"
 	"ApiManager/app/models"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"time"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
-	"log"
-	"net/http"
 )
 
 const sessionSecret = "api_manager_secret"
@@ -61,19 +64,19 @@ func roleMiddleWare(role int) gin.HandlerFunc {
 			return
 		case curRole == 2: // 若当前为普通管理员,要求的角色为1的话
 			if role == 1 {
-				c.JSON(http.StatusForbidden, gin.H{"msg": "Insufficient authority, no operation permission"})
+				libs.HandleError(c, nil, http.StatusForbidden, "权限不足，无操作权限")
 				c.Abort()
 				return
 			}
 		case curRole == 3: //若当前为游客,要求的角色为不为1(超级管理员)或不为2(管理员)
 			if role == 1 || role == 2 {
-				c.JSON(http.StatusForbidden, gin.H{"msg": "Insufficient authority, no operation permission"})
+				libs.HandleError(c, nil, http.StatusForbidden, "权限不足，无操作权限")
 				c.Abort()
 				return
 			}
 		default: // 未知权限截断
 			{
-				c.JSON(http.StatusForbidden, gin.H{"msg": "Insufficient authority, no operation permission"})
+				libs.HandleError(c, nil, http.StatusForbidden, "权限不足，无操作权限")
 				c.Abort()
 				return
 			}
@@ -90,7 +93,12 @@ func InitRouter() *gin.Engine {
 		gin.DefaultWriter = ioutil.Discard
 	}
 
-	r := gin.Default()
+	// 使用自定义中间件
+	r := gin.New()
+	r.Use(gin.Recovery())
+	r.Use(middleware.Logger())
+	// 添加全局API速率限制：每分钟60个请求
+	r.Use(middleware.RateLimit(60, time.Minute))
 	r.Delims("[[", "]]")
 
 	// session中间件
