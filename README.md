@@ -4,7 +4,7 @@
 采用golang 基于Gin框架编写的在线API文档管理系统；其致力于快速解决团队内部接口文档的编写、维护、存档，以及减少团队协作开发的沟通成本。
 
 ## 在线体验地址
-体验地址 [http://apidoc.gwalker.cn/](http://apidoc.gwalker.cn/)
+体验地址 [http://apidoc.gtools.cn/](http://apidoc.gtools.cn/)
 > 账号: guest 密码: 123456 [注: 此体验账号为游客模式,只有只读权限]
 > 不要改密码
 
@@ -67,7 +67,7 @@ mac ApiManager-darwin-amd64.zip
 
 ### 作者信息
 * Email:	gongcoder@gmail.com
-* Blog:	[https://www.gwalker.cn](https://www.gwalker.cn)
+* Blog:	[https://www.gtools.cn](https://www.gtools.cn)
 
 
 ### 写在最后
