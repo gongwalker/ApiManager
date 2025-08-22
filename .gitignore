@@ -1,0 +1,10 @@
+.idea
+.DS_Store
+.DS_Store?
+ApiManager
+run.log
+releases
+vendor
+.codebuddy
+logs
+app/static/uploads/

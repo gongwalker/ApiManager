@@ -1,0 +1,218 @@
+/* Theme overrides loaded after Layui to win cascade */
+
+/* Layui table containers */
+body.theme-blue .layui-table-box,
+body.theme-blue .layui-table-view,
+body.theme-blue .layui-table { background-color: #f8fbff !important; }
+
+body.theme-orange .layui-table-box,
+body.theme-orange .layui-table-view,
+body.theme-orange .layui-table { background-color: #fffaf2 !important; }
+
+body.theme-dark .layui-table-box,
+body.theme-dark .layui-table-view,
+body.theme-dark .layui-table { background-color: #151a1f !important; color: #e0e0e0 !important; }
+
+/* Layui tab card active item background */
+body.theme-blue .layui-tab-card > .layui-tab-title .layui-this { background-color: #f8fbff !important; }
+body.theme-orange .layui-tab-card > .layui-tab-title .layui-this { background-color: #fffaf2 !important; }
+body.theme-dark .layui-tab-card > .layui-tab-title .layui-this { background-color: #1a1f24 !important; color: #66b2ff !important; }
+
+/* Ensure active tab background also applies to anchor */
+body.theme-blue .layui-tab-card > .layui-tab-title .layui-this,
+body.theme-blue .layui-tab-card > .layui-tab-title .layui-this a,
+body.theme-blue .layui-tab-title .layui-this,
+body.theme-blue ul.layui-tab-title > li.layui-this {
+  background: #f8fbff !important;
+  background-color: #f8fbff !important;
+}
+body.theme-orange .layui-tab-card > .layui-tab-title .layui-this,
+body.theme-orange .layui-tab-card > .layui-tab-title .layui-this a,
+body.theme-orange .layui-tab-title .layui-this,
+body.theme-orange ul.layui-tab-title > li.layui-this {
+  background: #fffaf2 !important;
+  background-color: #fffaf2 !important;
+}
+body.theme-dark .layui-tab-card > .layui-tab-title .layui-this,
+body.theme-dark .layui-tab-card > .layui-tab-title .layui-this a,
+body.theme-dark .layui-tab-title .layui-this,
+body.theme-dark ul.layui-tab-title > li.layui-this {
+  background: #1a1f24 !important;
+  background-color: #1a1f24 !important;
+  color: #66b2ff !important;
+}
+
+/* Final strong override: ensure active tab background follows theme and inactive tabs are transparent */
+body.theme-blue .layui-tab-card > .layui-tab-title li { background: transparent !important; }
+body.theme-orange .layui-tab-card > .layui-tab-title li { background: transparent !important; }
+body.theme-dark .layui-tab-card > .layui-tab-title li { background: transparent !important; }
+
+body.theme-blue .layui-tab-card > .layui-tab-title li.layui-this,
+body.theme-blue .layui-tab.layui-tab-card > .layui-tab-title li.layui-this,
+body.theme-blue .layui-tab-card > .layui-tab-title li.layui-this a {
+  background: #f8fbff !important;
+  background-color: #f8fbff !important;
+}
+
+body.theme-orange .layui-tab-card > .layui-tab-title li.layui-this,
+body.theme-orange .layui-tab.layui-tab-card > .layui-tab-title li.layui-this,
+body.theme-orange .layui-tab-card > .layui-tab-title li.layui-this a {
+  background: #fffaf2 !important;
+  background-color: #fffaf2 !important;
+}
+
+body.theme-dark .layui-tab-card > .layui-tab-title li.layui-this,
+body.theme-dark .layui-tab.layui-tab-card > .layui-tab-title li.layui-this,
+body.theme-dark .layui-tab-card > .layui-tab-title li.layui-this a {
+  background: #1a1f24 !important;
+  background-color: #1a1f24 !important;
+  color: #66b2ff !important;
+}
+
+/* Strong override for active tab background across structures */
+body.theme-blue .layui-tab-card > .layui-tab-title > li.layui-this,
+body.theme-blue .layui-tab.layui-tab-card > .layui-tab-title > li.layui-this,
+body.theme-blue ul.layui-tab-title > li.layui-this { background: #f8fbff !important; background-color: #f8fbff !important; }
+body.theme-blue .layui-tab-card > .layui-tab-title > li.layui-this > a { background: #f8fbff !important; background-color: #f8fbff !important; }
+
+body.theme-orange .layui-tab-card > .layui-tab-title > li.layui-this,
+body.theme-orange .layui-tab.layui-tab-card > .layui-tab-title > li.layui-this,
+body.theme-orange ul.layui-tab-title > li.layui-this { background: #fffaf2 !important; background-color: #fffaf2 !important; }
+body.theme-orange .layui-tab-card > .layui-tab-title > li.layui-this > a { background: #fffaf2 !important; background-color: #fffaf2 !important; }
+
+body.theme-dark .layui-tab-card > .layui-tab-title > li.layui-this,
+body.theme-dark .layui-tab.layui-tab-card > .layui-tab-title > li.layui-this,
+body.theme-dark ul.layui-tab-title > li.layui-this { background: #1a1f24 !important; background-color: #1a1f24 !important; color: #66b2ff !important; }
+body.theme-dark .layui-tab-card > .layui-tab-title > li.layui-this > a { background: #1a1f24 !important; background-color: #1a1f24 !important; color: #66b2ff !important; }
+
+/* Keep header in mainWindow sticky at top on scroll */
+#mainWindow .textshadow {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: inherit; /* 避免内容透底 */
+}
+
+/* 为固定头部留出空间，避免内容被遮挡 */
+#mainWindow #modelWindow {
+  margin-top: 5px; /* 可按实际头部高度微调 */
+}
+
+/* Sidebar menu: no background on hover (override any theme/base) */
+#menuList .menu:hover > a,
+#menuList .menu:hover > .menu-link,
+body.theme-blue #menuList .menu:hover > a,
+body.theme-blue #menuList .menu:hover > .menu-link,
+body.theme-orange #menuList .menu:hover > a,
+body.theme-orange #menuList .menu:hover > .menu-link,
+body.theme-dark #menuList .menu:hover > a,
+body.theme-dark #menuList .menu:hover > .menu-link {
+  background-color: transparent !important;
+}
+
+/* Pointer cursor for clickable menu divs */
+#menuList .menu > .menu-link { cursor: pointer; }
+
+/* Disable previous underline/dot effects from base CSS */
+#menuList .menu a::before,
+#menuList .menu a::after,
+#menuList .menu > .menu-link::before { content: none; }
+
+/* Animated border stripe around menu-link on hover */
+#menuList .menu > .menu-link {
+  position: relative;
+  z-index: 0;
+}
+
+#menuList .menu > .menu-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;                 /* 覆盖整块，作为“边框” */
+  border-radius: 6px;
+  padding: 1px;             /* 彩条厚度，可调 */
+  background: conic-gradient(from 0deg, #1E9FFF, #e67e22, #66b2ff, #1E9FFF);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;  /* 只保留边框环形 */
+  transform-origin: 50% 50%;
+  pointer-events: none;
+  opacity: 0;               /* 默认不显示，悬停时显示 */
+}
+
+#menuList .menu:hover > .menu-link::after {
+  opacity: 1;
+  animation: menu-border-run 1.4s linear infinite;
+}
+
+@keyframes menu-border-run {
+  to { transform: rotate(1turn); }
+}
+
+/* --- Sidebar menu animated border: stability and spacing tweaks --- */
+/* 1) 取消整行位移与阴影，避免“飞走”错觉 */
+#menuList .menu:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 2) 给文本与彩条留出间隔，并统一圆角 */
+#menuList .menu > .menu-link {
+  padding: 6px 12px !important;      /* 上下留白，彩条不贴字 */
+  border-radius: 8px !important;      /* 与彩条圆角一致 */
+}
+
+/* 3) 彩条层级与参数微调：厚度/圆角/速度 */
+#menuList .menu > .menu-link::after {
+  z-index: 1;
+  padding: 1px;                       /* 彩条厚度 */
+  border-radius: 8px;                 /* 与主体一致 */
+  animation-duration: 2s;             /* 适度降速更稳定 */
+  transition: opacity .2s ease;
+}
+
+/* Disable border stripe animation completely */
+#menuList .menu > .menu-link::after { animation: none !important; }
+#menuList .menu:hover > .menu-link::after { opacity: 0 !important; animation: none !important; }
+
+/* Extracted from inline style for collection title */
+#menuList .menu .cate-title {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 6px;
+}
+
+/* Anchor offset: avoid sticky header covering anchor targets */
+#apibox .info_api { scroll-margin-top: 75px; }
+
+/* Fallback for older browsers */
+#apibox .info_api:target::before {
+  content: '';
+  display: block;
+  height: 75px;
+  margin-top: -75px;
+}
+
+/* Disable legacy hover color/padding/transition, keep only border-run animation */
+#menuList .menu > a,
+#menuList .menu > .menu-link {
+  padding-left: 12px !important;   /* 基准缩进保持一致 */
+  color: inherit !important;       /* 颜色不随 hover 改变 */
+  transition: none !important;     /* 不再给颜色/内边距/位移做过渡 */
+}
+
+/* 无论基础或主题规则，悬停都不改变颜色/缩进，仅显示边框彩条动画 */
+#menuList .menu:hover > a,
+#menuList .menu:hover > .menu-link,
+body.theme-blue #menuList .menu:hover > a,
+body.theme-blue #menuList .menu:hover > .menu-link,
+body.theme-orange #menuList .menu:hover > a,
+body.theme-orange #menuList .menu:hover > .menu-link,
+body.theme-dark #menuList .menu:hover > a,
+body.theme-dark #menuList .menu:hover > .menu-link {
+  padding-left: 12px !important;
+  color: inherit !important;
+  text-shadow: none !important;
+}
