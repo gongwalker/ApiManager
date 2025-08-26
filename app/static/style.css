@@ -827,9 +827,9 @@ body.theme-dark #apibox .sec {
     border-bottom-color: #222;
 }
 body.theme-dark .info {
-    color: #eed48a;
-    background-color: #3a2f06;
-    border-color: #5a4a0a;
+    color: #ffffff;
+    background-color: #151a1f;
+    border-color: #222;
 }
 body.theme-dark .kbd-green,
 body.theme-dark #apibox .cre_api kbd {
