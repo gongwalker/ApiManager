@@ -89,7 +89,7 @@ $(function () {
             $('kbd.api-url').each(function () {
                 var kbd = $(this);
                 if (kbd.next('.api-url-copy').length === 0) {
-                    var btn = $('<button type="button" class="btn btn-xs btn-default api-url-copy" style="margin-left:6px;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>');
+                    var btn = $('<span type="button" class="btn btn-xs btn-default api-url-copy" style="margin-left:6px;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></span>');
                     kbd.after(btn);
                 }
             });

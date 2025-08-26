@@ -209,10 +209,10 @@
                     {{# } }}
 
                     {{# if(boolRole(window.role == 1 || window.role == 2)){ }}
-                    <button data-tit='{{=item.name}}' data-id='{{=item.id}}'
-                            class="btn btn-primary btn-xs ml-6"
+                    <button data-tit='{{=item.name}}' data-id='{{=item.id}}' style="margin-left:6px;"
+                            class="btn btn-default btn-xs"
                             onclick="duplicateApi(this)">
-                        duplicate
+                        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                     </button>
                     {{# } }}
                 </div>
@@ -509,11 +509,11 @@
 
 
         <span id="theme-switcher" class="btn-group-vertical btn-group-xs" role="group" aria-label="Theme">
-            <div id="theme-blue-btn" type="button" class="btn btn-default"
+            <div id="theme-blue-btn" type="button" class="btn "
                     onclick="setTheme('theme-blue')"></div>
-            <div id="theme-orange-btn" type="button" class="btn btn-default"
+            <div id="theme-orange-btn" type="button" class="btn"
                     onclick="setTheme('theme-orange')"></div>
-            <div id="theme-dark-btn" type="button" class="btn btn-default"
+            <div id="theme-dark-btn" type="button" class="btn "
                     onclick="setTheme('theme-dark')"></div>
         </span>
 

@@ -127,7 +127,7 @@ body.theme-dark #menuList .menu:hover > .menu-link {
 #menuList .menu > .menu-link::after {
   content: "";
   position: absolute;
-  inset: 0;                 /* 覆盖整块，作为“边框” */
+  inset: 0;                 /* 覆盖整块，作为"边框" */
   border-radius: 6px;
   padding: 1px;             /* 彩条厚度，可调 */
   background: conic-gradient(from 0deg, #1E9FFF, #e67e22, #66b2ff, #1E9FFF);
@@ -151,7 +151,7 @@ body.theme-dark #menuList .menu:hover > .menu-link {
 }
 
 /* --- Sidebar menu animated border: stability and spacing tweaks --- */
-/* 1) 取消整行位移与阴影，避免“飞走”错觉 */
+/* 1) 取消整行位移与阴影，避免"飞走"错觉 */
 #menuList .menu:hover {
   transform: none !important;
   box-shadow: none !important;
@@ -215,4 +215,78 @@ body.theme-dark #menuList .menu:hover > .menu-link {
   padding-left: 12px !important;
   color: inherit !important;
   text-shadow: none !important;
+}
+
+/* 复制按钮主题样式 */
+body.theme-blue .btn-default {
+  background-color: #1E9FFF !important;
+  border-color: #0b84ff !important;
+  color: #fff !important;
+}
+
+body.theme-orange .btn-default {
+  background-color: #e67e22 !important;
+  border-color: #d35400 !important;
+  color: #fff !important;
+}
+
+body.theme-dark .btn-default {
+  background-color: #1565c0 !important;
+  border-color: #0d47a1 !important;
+  color: #fff !important;
+}
+
+/* 主题切换按钮样式 */
+body.theme-blue #theme-blue-btn {
+  background-color: #1E9FFF !important;
+  border: 1px solid #0b84ff !important;
+  color: #fff !important;
+}
+
+body.theme-blue #theme-orange-btn {
+  background-color: rgba(240, 173, 78, 0.5) !important;
+  border: 1px solid rgba(240, 173, 78, 1) !important;
+  color: #fff !important;
+}
+
+body.theme-blue #theme-dark-btn {
+  background-color: #85888C !important;
+  border: 1px solid #85888C !important;
+  color: #fff !important;
+}
+
+body.theme-orange #theme-blue-btn {
+  background-color: rgba(51, 122, 183, 0.5) !important;
+  border: 1px solid rgba(51, 122, 183, 1) !important;
+  color: #fff !important;
+}
+
+body.theme-orange #theme-orange-btn {
+  background-color: #e67e22 !important;
+  border: 1px solid #d35400 !important;
+  color: #fff !important;
+}
+
+body.theme-orange #theme-dark-btn {
+  background-color: #85888C !important;
+  border: 1px solid #85888C !important;
+  color: #fff !important;
+}
+
+body.theme-dark #theme-blue-btn {
+  background-color: rgba(51, 122, 183, 0.5) !important;
+  border: 1px solid rgba(51, 122, 183, 1) !important;
+  color: #fff !important;
+}
+
+body.theme-dark #theme-orange-btn {
+  background-color: rgba(240, 173, 78, 0.5) !important;
+  border: 1px solid rgba(240, 173, 78, 1) !important;
+  color: #fff !important;
+}
+
+body.theme-dark #theme-dark-btn {
+  background-color: #1565c0 !important;
+  border: 1px solid #0d47a1 !important;
+  color: #fff !important;
 }
