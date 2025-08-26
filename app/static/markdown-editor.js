@@ -117,8 +117,7 @@ function initMarkdownEditors() {
                     title: "Font Color",
                 },
                 '|',
-                'preview', 'side-by-side', 'fullscreen', '|',
-                'guide'
+                'preview'
             ],
             status: ['lines', 'words'],
         });

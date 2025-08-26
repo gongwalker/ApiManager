@@ -376,7 +376,7 @@ function addParam() {
         '<input type="text" class="form-control" name="p[paramType][]" placeholder="type" requiredgongwen="required"></td>' +
         '<td>' +
         '<select class="form-control" name="p[type][]">' +
-        '<option value="Y">Y</option> <option value="N">N</option>' +
+        '<option value="Y">Y</option> <option value="N">N</option> <option value="C">C</option>' +
         '</select >' +
         '</td>' +
         '<td>' +
@@ -524,6 +524,8 @@ function getApiParamsView(params) {
 
         if (params.param_cate[i] == 'Y') {
             color = '#FF5722';
+        } else if (params.param_cate[i] == 'C') {
+            color = '#1E9FFF';
         }
 
         str += `
@@ -543,7 +545,7 @@ function getApiParamsViewForEdit(params) {
     params = JSON.parse(params);
     let str = '';
     let l = params.param_name ? params.param_name.length : 0;
-    let cateSelected = {Y: '', N: ''};
+    let cateSelected = {Y: '', N: '', C: ''};
     for (let i = 0; i < l; i++) {
 
         cateSelected[params.param_cate[i]] = "selected";
@@ -560,6 +562,7 @@ function getApiParamsViewForEdit(params) {
             <select class="form-control" name="p[type][]">
                 <option ${cateSelected['Y']} value="Y">Y</option>
                 <option ${cateSelected['N']} value="N">N</option>
+                <option ${cateSelected['C']} value="C">C</option>
             </select>
         </td>
         <td>
