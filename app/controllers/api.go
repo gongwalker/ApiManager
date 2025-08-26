@@ -7,6 +7,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -305,8 +306,14 @@ func ServeUploadByFilename(c *gin.Context) {
 	}
 	cacheFile := filepath.Join(cacheDir, safeName)
 
-	// 1) 命中本地缓存则直接返回
+	// 1) 命中本地缓存则直接返回，添加缓存头
 	if fi, err := os.Stat(cacheFile); err == nil && !fi.IsDir() {
+		// 添加缓存控制头
+		c.Header("Cache-Control", "public, max-age=31536000") // 缓存一年
+		c.Header("Expires", time.Now().AddDate(1, 0, 0).Format(time.RFC1123))
+		c.Header("ETag", fmt.Sprintf("\"%x-%x\"", fi.ModTime().Unix(), fi.Size()))
+		c.Header("Last-Modified", fi.ModTime().Format(time.RFC1123))
+
 		c.File(cacheFile)
 		return
 	}
@@ -333,8 +340,18 @@ func ServeUploadByFilename(c *gin.Context) {
 		_ = os.WriteFile(filepath.Join(targetDir, safeName), content, 0644)
 	}
 
-	// 4) 返回二进制（使用内容嗅探得到 Content-Type）
+	// 4) 返回二进制（使用内容嗅探得到 Content-Type），添加缓存头
 	ct := http.DetectContentType(content)
+
+	// 添加缓存控制头
+	c.Header("Cache-Control", "public, max-age=31536000") // 缓存一年
+	c.Header("Expires", time.Now().AddDate(1, 0, 0).Format(time.RFC1123))
+	c.Header("ETag", fmt.Sprintf("\"%x-%x\"", rec.Addtime, rec.Size))
+
+	// 使用上传时间作为Last-Modified
+	lastModified := time.Unix(rec.Addtime, 0)
+	c.Header("Last-Modified", lastModified.Format(time.RFC1123))
+
 	c.Data(http.StatusOK, ct, content)
 }
 
