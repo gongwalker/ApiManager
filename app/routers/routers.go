@@ -97,9 +97,9 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	r.Use(middleware.Logger())
 
-	// 根据配置决定是否启用内网IP限制
-	if global.EnableIntranetOnly {
-		// 添加内网IP限制中间件，只允许内网IP访问
+	// 根据配置决定是否启用域名访问限制
+	if global.EnableDomainCheck {
+		// 添加域名访问限制中间件，只允许特定域名访问
 		r.Use(middleware.DomainCheck())
 	}
 

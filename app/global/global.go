@@ -4,6 +4,7 @@ import (
 	"ApiManager/app/libs"
 	"log"
 	"os"
+	"strings"
 )
 
 var (
@@ -14,7 +15,8 @@ var (
 	SessionDriveRedisConfig = make(map[string]interface{})
 	GinRunMode              string
 	GinWriteLog             bool
-	EnableIntranetOnly      bool // 是否只允许内网访问
+	EnableDomainCheck       bool     // 是否启用域名访问限制
+	AllowedHosts            []string // 允许访问的域名列表
 )
 
 func ReadConfig() {
@@ -62,6 +64,24 @@ func ReadConfig() {
 	// 是否记录运行日志
 	GinWriteLog, err = config.GetConfigToBool("site.gin_write_log")
 
-	// 是否只允许内网访问
-	EnableIntranetOnly, err = config.GetConfigToBool("site.enable_intranet_only")
+	// 是否启用域名访问限制
+	EnableDomainCheck, err = config.GetConfigToBool("site.enable_domain_check")
+
+	// 读取允许访问的域名列表
+	allowedHostsStr, _ := config.GetConfig("site.allowed_hosts")
+	if allowedHostsStr != "" {
+		// 将逗号分隔的域名列表转换为字符串数组
+		AllowedHosts = strings.Split(allowedHostsStr, ",")
+		// 去除每个域名的空白字符
+		for i, host := range AllowedHosts {
+			AllowedHosts[i] = strings.TrimSpace(host)
+		}
+	} else {
+		// 默认允许的域名列表
+		AllowedHosts = []string{
+			"10.0.7.128:8080",
+			"127.0.0.1:8080",
+			"localhost:8080",
+		}
+	}
 }
