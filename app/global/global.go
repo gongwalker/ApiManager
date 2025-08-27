@@ -14,6 +14,7 @@ var (
 	SessionDriveRedisConfig = make(map[string]interface{})
 	GinRunMode              string
 	GinWriteLog             bool
+	EnableIntranetOnly      bool // 是否只允许内网访问
 )
 
 func ReadConfig() {
@@ -60,4 +61,7 @@ func ReadConfig() {
 
 	// 是否记录运行日志
 	GinWriteLog, err = config.GetConfigToBool("site.gin_write_log")
+
+	// 是否只允许内网访问
+	EnableIntranetOnly, err = config.GetConfigToBool("site.enable_intranet_only")
 }
