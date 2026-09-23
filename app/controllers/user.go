@@ -32,19 +32,17 @@ func ListUser(c *gin.Context) {
 	user := models.User{}
 	page, _ := strconv.Atoi(c.Query("page"))
 	pageSize, _ := strconv.Atoi(c.Query("limit"))
-	limit := libs.GetLimitByPage(page, pageSize)
-
-	where := make([]string, 2)
-	loginName := libs.Addslashes(c.Query("login_name"))
-	role := libs.Addslashes(c.Query("role"))
-
-	if loginName != "" {
-		where = append(where, "login_name like '%"+loginName+"%'")
+	if page <= 0 {
+		page = 1
 	}
-	if role != "" {
-		where = append(where, "role='"+role+"'")
+	if pageSize <= 0 {
+		pageSize = 10
 	}
-	users, total, err := user.Lists(limit, "id desc", where...)
+	offset := (page - 1) * pageSize
+	loginName := c.Query("login_name")
+	role := c.Query("role")
+
+	users, total, err := user.Lists(offset, pageSize, loginName, role)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": "fail" + err.Error()})
 		return
