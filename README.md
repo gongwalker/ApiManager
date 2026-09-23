@@ -69,6 +69,15 @@ mac ApiManager-darwin-amd64.zip
 * Email:	gongcoder@gmail.com
 * Blog:	[https://www.gtools.cn](https://www.gtools.cn)
 
+### 标星历史
+<a href="https://www.star-history.com/?repos=gongwalker%2Fapimanager&type=date&legend=bottom-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=gongwalker/apimanager&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=gongwalker/apimanager&type=date&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=gongwalker/apimanager&type=date&legend=bottom-right" />
+ </picture>
+</a>
+  
 
 ### 写在最后
 非常欢迎大家贡献代码，让这个项目成长的更好。
