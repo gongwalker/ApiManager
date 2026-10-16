@@ -5,6 +5,7 @@ import (
 	"ApiManager/app/libs"
 	"database/sql"
 	"errors"
+	"regexp"
 	"strings"
 )
 
@@ -31,19 +32,14 @@ func Login(loginname, password string) (u User, err error) {
 }
 
 // 用户列表
-func (u *UserBase) Lists(limit string, order string, filters ...string) (users []UserBase, count int, err error) {
-	where := "1=1"
-	for _, v := range filters {
-		if v != "" {
-			where += " and (" + v + ")"
-		}
-	}
-	_sqlCount := "SELECT count(*) as total FROM `user` WHERE " + where
+func (u *UserBase) Lists(offset int, pageSize int, loginName string, role string) (users []UserBase, count int, err error) {
+	_sqlCount := "SELECT count(*) as total FROM `user` WHERE (? = '' OR login_name LIKE ?) AND (? = '' OR role = ?)"
+	args := []interface{}{loginName, "%" + loginName + "%", role, role}
 
-	err = bt.DbCon.QueryRow(_sqlCount).Scan(&count)
+	err = bt.DbCon.QueryRow(_sqlCount, args...).Scan(&count)
 	if count > 0 {
-		_sqlList := "SELECT id,login_name,role,isdel FROM `user` WHERE " + where + " ORDER BY " + order + " LIMIT " + limit
-		rows, err_ := bt.DbCon.Query(_sqlList)
+		_sqlList := "SELECT id,login_name,role,isdel FROM `user` WHERE (? = '' OR login_name LIKE ?) AND (? = '' OR role = ?) ORDER BY id DESC LIMIT ?,?"
+		rows, err_ := bt.DbCon.Query(_sqlList, append(args, offset, pageSize)...)
 
 		defer func(rows *sql.Rows) {
 			_ = rows.Close()
@@ -106,13 +102,8 @@ func (u *User) RestUserPwd() (affect int64, err error) {
 }
 
 // 得到用户详情
-func (u *User) GetUserInfoByUid(fields []string) (userInfoMap map[string]interface{}, err error) {
-	if len(fields) == 0 {
-		err = errors.New("please specify the field")
-		return
-	}
-	fieldStr := "`" + strings.Join(fields, "`,`") + "`"
-	_sql := "SELECT " + fieldStr + " FROM user WHERE id = ?"
+func (u *User) GetUserInfoByUid() (userInfoMap map[string]interface{}, err error) {
+	_sql := "SELECT `id`,`role`,`isdel` FROM user WHERE id = ?"
 
 	rows, err := bt.DbCon.Query(_sql, u.Id)
 	defer rows.Close()
